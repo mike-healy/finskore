@@ -5,14 +5,55 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
         <title>Finskore</title>
+        <link href="style.css" type="text/css" rel="stylesheet">
 
     </head>
     <body>
-        <div id="app" v-cloak v-bind:class="theme">
+        <div id="app"   v-cloak v-bind:class="theme">
 
             <header>
                 <h1>{{ title }}</h1>
             </header>
+
+            <p>
+                <button @click="createNewGame()">New Game</button>
+            </p>
+
+            <form v-if="setupGame" @submit.prevent="addPlayer" class="createGame">
+                <p>
+                    <label for="newPlayer">New Player</label>
+                    <input type="text" name="newPlayer" id="newPlayer" maxlength="20" required v-model="newPlayer">
+                    <button @click.prevent="addPlayer">Add to Game</button>
+                </p>
+
+                <p>
+                    <label for="playTo">Play To</label>
+                    <input type="number" min="12" max="1000" v-model="playToScore">
+                </p>
+
+                <button @click="startGame">Start Game</button>
+            </form>
+
+            <!-- LEADERBOARD -->
+            <table id="scoreboard" cellspacing="0" v-show="players.length > 0">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th style="width: 80%;">Name</th>
+                        <th>Score</th>
+                        <th>To Go</th>
+                    </tr>
+                </thead>
+                <tr v-for="p in players" v-bind:class="{struckout: hasStruckOut(p)}">
+                    <td></td>
+                    <td>
+                        {{ p.name }}
+                        <div class="strikes">{{ showStrikes(p) }}</div>
+                    </td>
+                    <td class="score">{{ p.score }}</td>
+                    <td class="togo">{{ playToScore-p.score }}</td>
+                </tr>
+            </table>
 
         </div> <!-- /#app -->
 

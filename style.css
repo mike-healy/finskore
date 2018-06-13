@@ -1,0 +1,40 @@
+body {
+    padding: 16px;
+    font-family: sans-serif;
+    background: #08476e;
+    color: #fff;
+}
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading..." }
+
+/* Create Game */
+form.createGame {
+    padding: 1rem;
+    background: #333;
+}
+
+/* Leaderboard */
+table {
+    background: #e9e9e9;
+    color: #444;
+    min-width: 75%;
+}
+
+th, td {
+    padding: 0.9rem;
+    text-align: left;
+}
+
+td.score,
+td.togo {
+    text-align: right;
+}
+
+td.score {
+    font-weight: bold;
+}
+
+tr.struckout td {
+    text-decoration: line-through;
+}
