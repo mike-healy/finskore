@@ -8,6 +8,14 @@ body {
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "loading..." }
 
+#app {
+    margin: 0 auto;
+    max-width: 768px;
+}
+
+
+
+
 /* Create Game */
 form.createGame {
     padding: 1rem;

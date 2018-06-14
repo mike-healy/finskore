@@ -9,7 +9,7 @@
 
     </head>
     <body>
-        <div id="app"   v-cloak v-bind:class="theme">
+        <div id="app" v-cloak v-bind:class="'theme-' + theme">
 
             <header>
                 <h1>{{ title }}</h1>
@@ -34,6 +34,23 @@
                 <button @click="startGame">Start Game</button>
             </form>
 
+            <!-- Enter players score for a turn -->
+            <form v-if="showScoreModal" @submit.prevent="saveScore()">
+
+                <h2>{{ thePlayerIamScoring }}</h2>
+                <p>
+                    <input type="number" name="" id="" max="12" min="0" step="1">
+                    <button type="submit">Save</button>
+                </p>
+
+                <p>
+                    <button @click.prevent="playerStrike()">Strike!</button>
+                </p>
+
+                <button @click.prevent="showScoreModal=false">Cancel</button>
+            </form>
+
+
             <!-- LEADERBOARD -->
             <table id="scoreboard" cellspacing="0" v-show="players.length > 0">
                 <thead>
@@ -47,7 +64,7 @@
                 <tr v-for="p in players" v-bind:class="{struckout: hasStruckOut(p)}">
                     <td></td>
                     <td>
-                        {{ p.name }}
+                        <div @click="enterScoreForm(p)">{{ p.name }}</div>
                         <div class="strikes">{{ showStrikes(p) }}</div>
                     </td>
                     <td class="score">{{ p.score }}</td>
