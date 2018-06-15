@@ -54,7 +54,7 @@
 
                 <h2>{{ nameForScoring }} Score</h2>
                 <p class="center">
-                    <input type="number" name="addScore" id="addScore" max="12" min="-12" step="1" value="0">
+                    <input type="number" name="addScore" id="addScore" max="12" min="-12" step="1" placeholder="0">
                     <button type="submit">Save</button>
                 </p>
 
@@ -80,11 +80,19 @@
                 </div>
             </section>
 
-            <p class="right" style="margin-top: 4rem;">
-                <button @click="resetGame">Reset Game</button>
+            <p v-show="players.length > 0" class="right" style="margin-top: 4rem;">
+                <button @click="resetGame" class="warning">Reset Everything</button>
+                <button @click="resetScores">Reset Scores</button>
             </p>
 
         </div> <!-- /#app -->
+
+        <h3>To Do</h3>
+        <ol>
+            <li>Position</li>
+            <li>Reset to half of play to. On change?</li>
+            <li>Favicon / Bookmark graphic</li>
+        </ol>
 
         <script>
             document.body.style.minHeight = window.visualViewport.height + 'px';

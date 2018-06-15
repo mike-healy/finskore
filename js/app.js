@@ -12,9 +12,11 @@ const finskore = new Vue({
         resetTo:     25,
         players: [],
 
-        //instance of current player being scored
-        scoringNow: {},
-        whoseTurn: 0,
+        scoringNow: {}, //instance of current player being scored
+        whoseTurn: 0,   //index
+        
+        scores: [],     //{i: , score: } objects, also kept in player index order. 
+        positions: [],  //player indices in ranking order
 
         //State
         setupGame: false,
@@ -41,6 +43,13 @@ const finskore = new Vue({
                 name: this.newPlayer,
                 score: 0,
                 strikes: 0
+            });
+
+            //Copy of scores for sorting to show position
+            let index = this.scores.length;
+            this.scores.push({
+                i: index,
+                score: 0
             });
 
             this.newPlayer = '';
@@ -73,12 +82,15 @@ const finskore = new Vue({
 
             setTimeout(function() {
                 document.getElementById('addScore').focus();
-            }, 50);
+            }, 40);
         },
 
         saveScore() {
 
             let score = parseInt(document.getElementById('addScore').value);
+            let index = this.players.indexOf(this.scoringNow);
+
+            this.showScoreModal = false;
 
             //Swing and a miss
             if(score === 0) {
@@ -93,6 +105,9 @@ const finskore = new Vue({
                 this.scoringNow.theyBlewIt = true; //they sure did!
             }
             
+            //Copy score for sorting
+            this.updatePositions(index, this.scoringNow.score);
+
             //Reset strikes if they got a hit
             if(score > 0) {
                 this.scoringNow.strikes = 0;
@@ -101,12 +116,26 @@ const finskore = new Vue({
             //Declare winner
             if(this.scoringNow.score === this.playToScore) {
                 this.winner = this.scoringNow.name;
+                return;
             }
 
-            this.showScoreModal = false;
             this.nextTurn();
-
         },
+
+        /* 
+        Update scores array for sorting into positions
+        */
+        updatePositions(index, score) {
+            this.scores[index] = {
+                i: index,
+                score: this.scoringNow.score
+            };
+
+            this.positions = this.scores.sort(function(a,b) {
+                return a.score > b.score;
+            });
+        },
+
 
         //This is buggy, when player strikes out it's going to previous one
         nextTurn() {
@@ -124,11 +153,26 @@ const finskore = new Vue({
         },
 
         resetGame() {
-            if(!confirm('Clear everything & start a new game?')) {
+            if(!confirm('Clear EVERYTHING and start a new game?')) {
                 return;
             }
             this.players = [];
+            this.scores = [];
+            this.positions = [];
             this.winner  = '';
+        },
+
+        resetScores() {
+            if(!confirm('Start a new game with same players?')) {
+                return;
+            }
+            for(let i=0; i<this.players.length; i++) {
+                this.players[i].score   = 0;
+                this.players[i].strikes = 0;
+            }
+            this.whoseTurn = 0;
+            this.scores = [];
+            this.positions = [];
         },
 
         // TEMPORARY

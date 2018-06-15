@@ -110,6 +110,13 @@ button.cancel {
     background: rgb(12, 58, 80);
 }
 
+button.warning {
+    margin-right: 1rem;
+    background: #343038;
+    border-color: #bf964a;
+    color: #f19c87;
+}
+
 input[type=text],
 input[type=number] {
     padding: 0.5rem;
