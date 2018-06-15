@@ -1,6 +1,7 @@
-* {
-    box-sizing: border-box;
-}
+* {box-sizing: border-box;}
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading..." }
 
 body {
     padding: 16px;
@@ -8,10 +9,8 @@ body {
     background: #08476e;
     background: linear-gradient(220deg,#64bf64, #08476e);
     color: #fff;
+    font-size: 1rem;
 }
-
-[v-cloak] > * { display:none }
-[v-cloak]::before { content: "loading..." }
 
 #app {
     margin: 0 auto;
@@ -19,19 +18,15 @@ body {
     position: relative;
 }
 
-
-
-
-/* Create Game */
-form.createGame {
-    padding: 1rem;
-    background: #333;
-}
-
+.center {text-align: center;}
 
 /* Leaderboard */
 section.leaderboard > div.player {
     display: flex;
+}
+
+section.leaderboard > div {
+    border-bottom: 1px solid #64bf64;
 }
 
 .player > div {
@@ -40,6 +35,7 @@ section.leaderboard > div.player {
 
 .player .player {
     flex-grow: 2;
+    border-color: rgb(120, 191, 231);
 }
 .player .pos,
 .player .score,
@@ -59,23 +55,68 @@ section.leaderboard > div.player {
     padding: 0 0 0.2rem 0;
 }
 
+.player .name {
+    cursor: pointer;
+}
+
 .struckout {
     text-decoration: line-through;
     color: #a7d5ef;
 }
 
 
+form {
+    background: rgba(12, 58, 80, 0.96);
+    padding: 2rem;
+    z-index: 5;
+}
+
+form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+
+button {
+    background: #1f5f58;
+    border: 1px solid #75e679;
+    color: #99ef9b;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+button.cancel {
+    color: #46a248;
+    border-color: #46a248;
+    background: rgb(12, 58, 80);
+}
+
+input[type=text],
+input[type=number] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+}
+
+input[type=number] {
+    margin-right: 0.5rem;
+}
 
 form.enterScore {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(50, 63, 85, 0.94);
-    padding: 1rem;
-    z-index: 5;
+    height: 100%;
 }
 
-.enterScore h2 {
-    margin-top: 0;
+
+/* Create Game */
+form.createGame {
+
 }

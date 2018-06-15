@@ -17,7 +17,7 @@ const finskore = new Vue({
             {name: 'Marinus', score: 0, strikes: 0}
         ],
 
-        //Adding score for this player
+        //instance of current player being scored
         scoringNow: {},
 
         //State
@@ -63,12 +63,16 @@ const finskore = new Vue({
 
         //@var index player index
         enterScoreForm(index) {
-            //let player = this.players[index];
 
             //this.scoringNow.index = index;
             this.scoringNow = this.players[index];
 
             this.showScoreModal = true;
+            this.setupGame = false;
+
+            setTimeout(function() {
+                document.getElementById('addScore').focus();
+            }, 50);
         },
 
         saveScore() {

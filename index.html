@@ -16,10 +16,12 @@
             </header>
 
             <p>
-                <button @click="createNewGame()">New Game</button>
+                <button @click="createNewGame()">Add Players</button>
             </p>
 
+            <!-- SETUP GAME -->
             <form v-if="setupGame" @submit.prevent="addPlayer" class="createGame">
+                <h2>Add Players</h2>
                 <p>
                     <label for="newPlayer">New Player</label>
                     <input type="text" name="newPlayer" id="newPlayer" maxlength="20" required v-model="newPlayer">
@@ -31,28 +33,32 @@
                     <input type="number" min="12" max="1000" v-model="playToScore">
                 </p>
 
-                <button @click="startGame">Start Game</button>
+                <p class="center">
+                    <button @click.prevent="setupGame=false" class="cancel">close</button>
+                    <button @click="startGame">Start Game</button>
+                </p>
             </form>
+
 
             <!-- Enter players score for a turn -->
             <form class='enterScore' v-if="showScoreModal" @submit.prevent="saveScore()">
 
                 <h2>{{ nameForScoring }} Score</h2>
-                <p>
-                    <input type="number" name="addScore" id="addScore" max="12" min="0" step="1" value="0">
+                <p class="center">
+                    <input type="number" name="addScore" id="addScore" max="12" min="-12" step="1" value="0">
                     <button type="submit">Save</button>
                 </p>
 
-                <button @click.prevent="showScoreModal=false">Cancel</button>
+                <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
             </form>
 
 
             <!-- LEADERBOARD -->
             <section class="leaderboard">
-                <div v-for="(p, index) in players" class="player" v-bind:class="{struckout: hasStruckOut(p)}">
+                <div v-for="(p, index) in players" @click="enterScoreForm(index)" class="player" v-bind:class="{struckout: hasStruckOut(p)}">
                     <div class='pos'>{{ position(p) }}</div>
                     <div class="player">
-                        <div class="name" @click="enterScoreForm(index)">{{ p.name }}</div>
+                        <div class="name">{{ p.name }}</div>
                         <div class="strikes">{{ showStrikes(p) }}</div>
                     </div>
                     <div class="score">{{ p.score }}</div>
