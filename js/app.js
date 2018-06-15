@@ -10,25 +10,26 @@ const finskore = new Vue({
         //Config
         playToScore: 50,
         resetTo:     25,
-        players: [
-            {name: 'Mike', score: 0, strikes: 1},
-            {name: 'Simon', score: 0, strikes: 0},
-            {name: 'Trish', score: 0, strikes: 0},
-            {name: 'Marinus', score: 0, strikes: 0}
-        ],
+        players: [],
 
         //instance of current player being scored
         scoringNow: {},
+        whoseTurn: 0,
 
         //State
         setupGame: false,
         showScoreModal: false,
         newPlayer: '',
+        winner: ''
     },
     
     methods: {
         createNewGame() {
             this.setupGame = true;
+
+            setTimeout(function() {
+                document.getElementById('newPlayer').focus();
+            }, 40);
         },
 
         startGame() {
@@ -97,14 +98,42 @@ const finskore = new Vue({
                 this.scoringNow.strikes = 0;
             }
 
-            this.showScoreModal = false;
+            //Declare winner
+            if(this.scoringNow.score === this.playToScore) {
+                this.winner = this.scoringNow.name;
+            }
 
-            //todo detect if game has been won
+            this.showScoreModal = false;
+            this.nextTurn();
+
+        },
+
+        //This is buggy, when player strikes out it's going to previous one
+        nextTurn() {
+
+            if(this.whoseTurn >= this.players.length-1) {
+                this.whoseTurn = 0;
+            } else {
+                this.whoseTurn++;
+            }
+
+            //Skip a struck out player
+            if( this.hasStruckOut(this.players[this.whoseTurn]) ) {
+                this.nextTurn();
+            }
+        },
+
+        resetGame() {
+            if(!confirm('Clear everything & start a new game?')) {
+                return;
+            }
+            this.players = [];
+            this.winner  = '';
         },
 
         // TEMPORARY
         position() {
-            return Math.round(Math.random()*100);
+            return '--';
         }
     },
 

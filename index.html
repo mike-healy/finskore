@@ -12,12 +12,21 @@
         <div id="app" v-cloak v-bind:class="'theme-' + theme">
 
             <header>
-                <h1>{{ title }}</h1>
+                <h1>Finskore</h1>
+                <p>Online scoring app for Finska, Klop &amp; Molkky</p>
             </header>
 
             <p>
                 <button @click="createNewGame()">Add Players</button>
             </p>
+
+            <!-- DECLARE WINNER -->
+            <section v-show="winner !== ''" class="winner">
+                <h2>{{ winner }} Won!</h2>
+                <p>
+                    <button class="cancel" @click="winner=''">close</button>
+                </p>
+            </section>
 
             <!-- SETUP GAME -->
             <form v-if="setupGame" @submit.prevent="addPlayer" class="createGame">
@@ -30,7 +39,7 @@
 
                 <p>
                     <label for="playTo">Play To</label>
-                    <input type="number" min="12" max="1000" v-model="playToScore">
+                    <input type="number" min="12" max="1000" v-model.number="playToScore">
                 </p>
 
                 <p class="center">
@@ -55,7 +64,12 @@
 
             <!-- LEADERBOARD -->
             <section class="leaderboard">
-                <div v-for="(p, index) in players" @click="enterScoreForm(index)" class="player" v-bind:class="{struckout: hasStruckOut(p)}">
+                
+                <div v-for="(p, index) in players"
+                    @click="enterScoreForm(index)"
+                    class="player"
+                    v-bind:class="{struckout: hasStruckOut(p), myturn: whoseTurn === index}">
+
                     <div class='pos'>{{ position(p) }}</div>
                     <div class="player">
                         <div class="name">{{ p.name }}</div>
@@ -65,6 +79,10 @@
                     <div class="togo">{{ playToScore-p.score }}</div>
                 </div>
             </section>
+
+            <p class="right" style="margin-top: 4rem;">
+                <button @click="resetGame">Reset Game</button>
+            </p>
 
         </div> <!-- /#app -->
 

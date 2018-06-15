@@ -19,6 +19,16 @@ body {
 }
 
 .center {text-align: center;}
+.right {text-align: right;}
+
+header {margin-bottom: 2rem;}
+header h1 {margin-bottom: 0;}
+
+section.winner {
+    padding: 1rem;
+    text-align: center;
+    background: #1d1d1d;
+}
 
 /* Leaderboard */
 section.leaderboard > div.player {
@@ -31,6 +41,10 @@ section.leaderboard > div {
 
 .player > div {
     padding: 1rem;
+}
+
+.player.myturn {
+    background: #18406d;
 }
 
 .player .player {
