@@ -35,16 +35,12 @@
             </form>
 
             <!-- Enter players score for a turn -->
-            <form v-if="showScoreModal" @submit.prevent="saveScore()">
+            <form class='enterScore' v-if="showScoreModal" @submit.prevent="saveScore()">
 
-                <h2>{{ thePlayerIamScoring }}</h2>
+                <h2>{{ nameForScoring }} Score</h2>
                 <p>
-                    <input type="number" name="" id="" max="12" min="0" step="1">
+                    <input type="number" name="addScore" id="addScore" max="12" min="0" step="1" value="0">
                     <button type="submit">Save</button>
-                </p>
-
-                <p>
-                    <button @click.prevent="playerStrike()">Strike!</button>
                 </p>
 
                 <button @click.prevent="showScoreModal=false">Cancel</button>
@@ -52,27 +48,23 @@
 
 
             <!-- LEADERBOARD -->
-            <table id="scoreboard" cellspacing="0" v-show="players.length > 0">
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th style="width: 80%;">Name</th>
-                        <th>Score</th>
-                        <th>To Go</th>
-                    </tr>
-                </thead>
-                <tr v-for="p in players" v-bind:class="{struckout: hasStruckOut(p)}">
-                    <td></td>
-                    <td>
-                        <div @click="enterScoreForm(p)">{{ p.name }}</div>
+            <section class="leaderboard">
+                <div v-for="(p, index) in players" class="player" v-bind:class="{struckout: hasStruckOut(p)}">
+                    <div class='pos'>{{ position(p) }}</div>
+                    <div class="player">
+                        <div class="name" @click="enterScoreForm(index)">{{ p.name }}</div>
                         <div class="strikes">{{ showStrikes(p) }}</div>
-                    </td>
-                    <td class="score">{{ p.score }}</td>
-                    <td class="togo">{{ playToScore-p.score }}</td>
-                </tr>
-            </table>
+                    </div>
+                    <div class="score">{{ p.score }}</div>
+                    <div class="togo">{{ playToScore-p.score }}</div>
+                </div>
+            </section>
 
         </div> <!-- /#app -->
+
+        <script>
+            document.body.style.minHeight = window.visualViewport.height + 'px';
+        </script>
 
         <script src="js/vue.js"></script>
         <script src="js/app.js"></script>

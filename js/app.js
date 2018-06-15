@@ -9,11 +9,16 @@ const finskore = new Vue({
 
         //Config
         playToScore: 50,
-        players: [],
+        resetTo:     25,
+        players: [
+            {name: 'Mike', score: 0, strikes: 1},
+            {name: 'Simon', score: 0, strikes: 0},
+            {name: 'Trish', score: 0, strikes: 0},
+            {name: 'Marinus', score: 0, strikes: 0}
+        ],
 
-        //Add score to this player
-        thePlayerIamScoring: '', //todo: refactor name, data structure
-
+        //Adding score for this player
+        scoringNow: {},
 
         //State
         setupGame: false,
@@ -56,22 +61,56 @@ const finskore = new Vue({
             return str;
         },
 
-        enterScoreForm(player) {
-            this.thePlayerIamScoring = player.name;
+        //@var index player index
+        enterScoreForm(index) {
+            //let player = this.players[index];
+
+            //this.scoringNow.index = index;
+            this.scoringNow = this.players[index];
+
             this.showScoreModal = true;
         },
 
-        saveScore(score) {
-            // todo: use the score
-            // todo: find player in stack, if non-zero score, reset their strikes to 0
+        saveScore() {
+
+            let score = parseInt(document.getElementById('addScore').value);
+
+            //Swing and a miss
+            if(score === 0) {
+                this.scoringNow.strikes++;
+            }
+
+            this.scoringNow.score += score;
+
+            //OVER QUOTA -- Whoops
+            if(this.scoringNow.score > this.playToScore) {
+                this.scoringNow.score = this.resetTo;
+                this.scoringNow.theyBlewIt = true; //they sure did!
+            }
+            
+            //Reset strikes if they got a hit
+            if(score > 0) {
+                this.scoringNow.strikes = 0;
+            }
+
             this.showScoreModal = false;
+
+            //todo detect if game has been won
         },
 
-        //Current player missed every single piece
-        // like all of them. Didn't hit a single one.
-        playerStrike() {
-            this.saveScore(0);
-            // @todo find current player in this.players, increment their strike count
+        // TEMPORARY
+        position() {
+            return Math.round(Math.random()*100);
+        }
+    },
+
+    computed: {
+        nameForScoring() {
+            let name = this.scoringNow.name;
+            if(name.substr(-1) !== 's') {
+                return name + "'s";
+            }
+            return name + "'";
         }
     }
 

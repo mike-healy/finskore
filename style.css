@@ -1,7 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     padding: 16px;
     font-family: sans-serif;
     background: #08476e;
+    background: linear-gradient(220deg,#64bf64, #08476e);
     color: #fff;
 }
 
@@ -11,6 +16,7 @@ body {
 #app {
     margin: 0 auto;
     max-width: 768px;
+    position: relative;
 }
 
 
@@ -22,27 +28,54 @@ form.createGame {
     background: #333;
 }
 
+
 /* Leaderboard */
-table {
-    background: #e9e9e9;
-    color: #444;
-    min-width: 75%;
+section.leaderboard > div.player {
+    display: flex;
 }
 
-th, td {
-    padding: 0.9rem;
-    text-align: left;
+.player > div {
+    padding: 1rem;
 }
 
-td.score,
-td.togo {
-    text-align: right;
+.player .player {
+    flex-grow: 2;
+}
+.player .pos,
+.player .score,
+.player .togo {
+    flex-shrink: 1;
 }
 
-td.score {
+.player .score {
     font-weight: bold;
 }
+.player .togo {
+    opacity: 0.6;
+}
 
-tr.struckout td {
+.player .name,
+.player .strikes {
+    padding: 0 0 0.2rem 0;
+}
+
+.struckout {
     text-decoration: line-through;
+    color: #a7d5ef;
+}
+
+
+
+form.enterScore {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(50, 63, 85, 0.94);
+    padding: 1rem;
+    z-index: 5;
+}
+
+.enterScore h2 {
+    margin-top: 0;
 }
