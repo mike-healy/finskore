@@ -122,8 +122,9 @@ const finskore = new Vue({
             this.nextTurn();
         },
 
-        // Update scores array for sorting into positions
-        updatePositions(index, score) {
+        // Update players position after each turn
+        // bug: won't set a new leader if the current one strikes out
+        updatePositions() {
             
             let scores = [];
             
@@ -140,7 +141,15 @@ const finskore = new Vue({
 
 
             scores.forEach( (obj, index) => {
-                this.players[obj.index].position = index+1;
+
+                //Struck out ya loser
+                if( this.hasStruckOut(this.players[obj.index]) ) {
+                    this.players[obj.index].position = this.players.length;
+                } else {
+
+                    this.players[obj.index].position = index+1;
+                }
+
             });
         },
 
@@ -164,7 +173,6 @@ const finskore = new Vue({
             }
             this.players = [];
             this.scores = [];
-            //this.positions = [];
             this.winner  = '';
             this.gameInProgress = false;
         },
@@ -180,7 +188,6 @@ const finskore = new Vue({
             }
             this.whoseTurn = 0;
             this.scores = [];
-            //this.positions = [];
             this.gameInProgress = false;
         },
 

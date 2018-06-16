@@ -1,5 +1,9 @@
 * {box-sizing: border-box;}
 
+header, footer, section {
+    display: block;
+}
+
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "loading..." }
 
@@ -136,4 +140,20 @@ form.enterScore {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+
+/* Footer */
+footer {
+    font-size: 0.8rem;
+    margin-top: 4rem;
+}
+
+footer a {color: #77c97c;}
+footer a:visited {color: #6ebd73;}
+
+footer a:hover {
+    background: #6ebd73;
+    color: #224241;
+    text-decoration: none;
 }
