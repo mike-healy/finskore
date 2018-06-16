@@ -71,6 +71,7 @@
                     <button type="submit">Save</button>
                 </p>
 
+                <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
                 <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
             </form>
 

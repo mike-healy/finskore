@@ -12,6 +12,7 @@ const finskore = new Vue({
         players: [],
 
         //State
+        scoringIndex: null,
         scoringNow: {}, //instance of current player being scored
         whoseTurn:  0,   //index
 
@@ -50,6 +51,18 @@ const finskore = new Vue({
             this.newPlayer = '';
         },
 
+        deletePlayer() {
+            if(this.scoringIndex === null) {
+                return;
+            }
+            if(!confirm('Remove ' + this.scoringNow.name + ' from the game?')) {
+                return;
+            }
+
+            this.players.splice(this.scoringIndex, 1);
+            this.showScoreModal = false;
+        },
+
         hasStruckOut(player) {
             return player.strikes >= 3;
         },
@@ -70,6 +83,7 @@ const finskore = new Vue({
         enterScoreForm(index) {
 
             //this.scoringNow.index = index;
+            this.scoringIndex = index;
             this.scoringNow = this.players[index];
 
             this.showScoreModal = true;
