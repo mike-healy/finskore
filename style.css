@@ -44,12 +44,14 @@ section.leaderboard > div {
 }
 
 .player.myturn {
-    background: #18406d;
+    background: #1b5f6b
+}
+.player.winning .pos{
+    background: #134a61;
 }
 
 .player .player {
     flex-grow: 2;
-    border-color: rgb(120, 191, 231);
 }
 .player .pos,
 .player .score,
@@ -134,10 +136,4 @@ form.enterScore {
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-
-/* Create Game */
-form.createGame {
-
 }

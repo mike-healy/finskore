@@ -9,16 +9,13 @@ const finskore = new Vue({
 
         //Config
         playToScore: 50,
-        resetTo:     25,
         players: [],
 
-        scoringNow: {}, //instance of current player being scored
-        whoseTurn: 0,   //index
-        
-        scores: [],     //{i: , score: } objects, also kept in player index order. 
-        positions: [],  //player indices in ranking order
-
         //State
+        scoringNow: {}, //instance of current player being scored
+        whoseTurn:  0,   //index
+
+        gameInProgress: false,
         setupGame: false,
         showScoreModal: false,
         newPlayer: '',
@@ -39,17 +36,15 @@ const finskore = new Vue({
         },
 
         addPlayer() {
+            if(this.newPlayer === '') {
+                return;
+            }
+
             this.players.push({
                 name: this.newPlayer,
                 score: 0,
-                strikes: 0
-            });
-
-            //Copy of scores for sorting to show position
-            let index = this.scores.length;
-            this.scores.push({
-                i: index,
-                score: 0
+                strikes: 0,
+                position: 1  //everyone's a winner, until they're not
             });
 
             this.newPlayer = '';
@@ -90,6 +85,11 @@ const finskore = new Vue({
             let score = parseInt(document.getElementById('addScore').value);
             let index = this.players.indexOf(this.scoringNow);
 
+            if(isNaN(score)) {
+                score = 0;
+            }
+            
+            this.gameInProgress = true;
             this.showScoreModal = false;
 
             //Swing and a miss
@@ -122,22 +122,28 @@ const finskore = new Vue({
             this.nextTurn();
         },
 
-        /* 
-        Update scores array for sorting into positions
-        */
+        // Update scores array for sorting into positions
         updatePositions(index, score) {
-            this.scores[index] = {
-                i: index,
-                score: this.scoringNow.score
-            };
+            
+            let scores = [];
+            
+            this.players.forEach( (player, index) => {
+                scores.push({
+                    index: index,
+                    score: player.score
+                });
+            });
 
-            this.positions = this.scores.sort(function(a,b) {
-                return a.score > b.score;
+            scores.sort( function(a,b) { 
+                return a.score < b.score; //higher first
+            });
+
+
+            scores.forEach( (obj, index) => {
+                this.players[obj.index].position = index+1;
             });
         },
 
-
-        //This is buggy, when player strikes out it's going to previous one
         nextTurn() {
 
             if(this.whoseTurn >= this.players.length-1) {
@@ -158,8 +164,9 @@ const finskore = new Vue({
             }
             this.players = [];
             this.scores = [];
-            this.positions = [];
+            //this.positions = [];
             this.winner  = '';
+            this.gameInProgress = false;
         },
 
         resetScores() {
@@ -167,21 +174,42 @@ const finskore = new Vue({
                 return;
             }
             for(let i=0; i<this.players.length; i++) {
-                this.players[i].score   = 0;
-                this.players[i].strikes = 0;
+                this.players[i].score    = 0;
+                this.players[i].strikes  = 0;
+                this.players[i].position = 1;
             }
             this.whoseTurn = 0;
             this.scores = [];
-            this.positions = [];
+            //this.positions = [];
+            this.gameInProgress = false;
         },
 
-        // TEMPORARY
-        position() {
-            return '--';
+        // English-ify the numeric positio
+        showPosition(p) {
+            // 1st, 2nd, 3rd, 4th, 5th, 
+            if(p >= 4) {
+                return p + 'th';
+            }
+            switch(p) {
+                case 1:
+                    return '1st';
+                    break;
+                case 2:
+                    return '2nd';
+                    break;
+                default:
+                    return p + 'rd';
+                    break;
+            }
         }
     },
 
     computed: {
+
+        resetTo() {
+            return Math.ceil( this.playToScore/2 );
+        },
+
         nameForScoring() {
             let name = this.scoringNow.name;
             if(name.substr(-1) !== 's') {
