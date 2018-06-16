@@ -18,6 +18,7 @@
 
         <meta property="og:title" content="Finskore -- browser based scoring app for Finska &amp; Klop">
         <meta property="og:image" content="img/cover.png">
+        <meta name="description" content="Finskore - online scoring app for Finska, Klop &amp; Molkky. Keep score in your browser">
 
     </head>
     <body>
@@ -71,8 +72,11 @@
                     <button type="submit">Save</button>
                 </p>
 
-                <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
-                <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
+                <p class="top-space">
+                    <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
+                    <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
+                </p>
+
             </form>
 
 
@@ -94,7 +98,7 @@
                 </div>
             </section>
 
-            <p v-show="players.length > 0" class="right" style="margin-top: 4rem;">
+            <p v-show="players.length > 0" class="right top-space">
                 <button @click="resetGame" class="warning">Reset Everything</button>
                 <button @click="resetScores">Reset Scores</button>
             </p>

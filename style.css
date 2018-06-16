@@ -24,9 +24,10 @@ body {
 
 .center {text-align: center;}
 .right {text-align: right;}
+.top-space {margin-top: 4rem;}
 
 header {margin-bottom: 2rem;}
-header h1 {margin-bottom: 0;}
+header h1 {margin: 0;}
 
 section.winner {
     padding: 1rem;
@@ -88,6 +89,7 @@ section.leaderboard > div {
 form {
     background: rgba(12, 58, 80, 0.96);
     padding: 2rem;
+    padding-bottom: 1px;
     z-index: 5;
 }
 
@@ -108,6 +110,7 @@ button {
     color: #99ef9b;
     padding: 0.5rem;
     font-size: 0.9rem;
+    margin: 0.6rem 0;
 }
 
 button.cancel {
@@ -140,6 +143,7 @@ form.enterScore {
     left: 0;
     width: 100%;
     height: 100%;
+    text-align: center;
 }
 
 
