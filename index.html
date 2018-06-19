@@ -90,7 +90,7 @@
 
                     <div class='pos'>{{ showPosition(p.position) }}</div>
                     <div class="player">
-                        <div class="name">{{ p.name }}</div>
+                        <div class="name">{{ p.name }} <img v-show="p.theyBlewIt" src="img/sad.png" alt=":("></div>
                         <div class="strikes">{{ showStrikes(p) }}</div>
                     </div>
                     <div class="score">{{ p.score }}</div>

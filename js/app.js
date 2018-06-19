@@ -116,7 +116,9 @@ const finskore = new Vue({
             //OVER QUOTA -- Whoops
             if(this.scoringNow.score > this.playToScore) {
                 this.scoringNow.score = this.resetTo;
-                this.scoringNow.theyBlewIt = true; //they sure did!
+                this.scoringNow.theyBlewIt = true;
+            } else {
+                this.scoringNow.theyBlewIt = false;
             }
             
             //Copy score for sorting
@@ -145,12 +147,26 @@ const finskore = new Vue({
             this.players.forEach( (player, index) => {
                 scores.push({
                     index: index,
-                    score: player.score
+                    score: player.score,
+                    struckout: this.hasStruckOut(player)
                 });
             });
 
-            scores.sort( function(a,b) { 
-                return a.score < b.score; //higher first
+            scores.sort( function(a,b) {
+                
+                if( (!a.struckout && !b.struckout) ||
+                    (a.struckout && b.struckout) ) {
+                    
+                    return a.score < b.score;
+                }
+
+                if(a.struckout) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+
+                throw new Error('Your sorting logic is terrible. Just really bad mate.');
             });
 
 

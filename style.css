@@ -80,6 +80,13 @@ section.leaderboard > div {
 .player .name {
     cursor: pointer;
 }
+.player .name img {
+    display: block;
+    margin-top: 4px;
+    width: 32px;
+    height: auto;
+    border: none;
+}
 
 .struckout {
     text-decoration: line-through;
