@@ -14,6 +14,7 @@ body {
     background: linear-gradient(220deg,#64bf64, #08476e);
     color: #fff;
     font-size: 1rem;
+    min-height: 100vh; /* thanks @jaaprood */
 }
 
 #app {
