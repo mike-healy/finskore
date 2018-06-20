@@ -169,3 +169,70 @@ footer a:hover {
     color: #224241;
     text-decoration: none;
 }
+
+.themeSwitcher {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+    .themeSwitcher > div {
+        display: inline-block;
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+    }
+
+    .themeSwitcher .default {background: #23676b; margin-right: 8px;}
+    .themeSwitcher .hot {background: #eabd2e;}
+
+    
+/* THEME - HOT */
+body.theme-hot {
+    background: linear-gradient(110deg,#efb024,#dc7626);
+}
+
+.theme-hot footer a,
+.theme-hot footer a:visited {
+    color: #3c3c3c;
+}
+.theme-hot footer a:hover {
+    background: #d24d15;
+    color: #fff;
+}
+
+.theme-hot button {
+    background: #ea5c11;
+    border: 1px solid #ffecb6;
+    color: #fff;
+}
+
+.theme-hot button.warning {
+    background: #343038;
+    border-color: #ff5722;
+}
+
+.theme-hot form {
+    background: rgba(64, 31, 54, 0.96);
+}
+
+.theme-hot button.cancel {
+    color: #dc8989;
+    border-color: #8e5b75;
+    background: rgb(105, 59, 83);
+}
+
+.theme-hot section.leaderboard {
+    color: #0a2c3c;
+}
+
+.theme-hot .player.winning .pos {
+    color: #f7d182;
+}
+
+.theme-hot .player.myturn {
+    background: #f7a448;
+}
+
+.theme-hot .struckout {
+    color: #924f34;
+}

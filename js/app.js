@@ -238,6 +238,14 @@ const finskore = new Vue({
                     return p + 'rd';
                     break;
             }
+        },
+
+        setTheme(theme) {
+            if( ['default', 'hot'].indexOf(theme) !== -1 ) {
+                this.theme = theme;
+                document.body.className = 'theme-' + theme;
+                localStorage.setItem('theme', theme);
+            }
         }
     },
 
@@ -257,3 +265,9 @@ const finskore = new Vue({
     }
 
 });
+
+if( localStorage.getItem('theme') ) {
+    let themeClass = 'theme-' + localStorage.getItem('theme');
+    document.body.className = themeClass;
+    document.getElementById('app').className = document.getElementById('app').className.replace('theme-default'. themeClass);
+}

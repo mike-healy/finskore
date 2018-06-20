@@ -108,7 +108,13 @@
                 <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
             </footer>
 
+            <div class='themeSwitcher'>
+                <div @click="setTheme('default')" class='default'></div>
+                <div @click="setTheme('hot')" class='hot'></div>
+            </div>
+
         </div> <!-- /#app -->
+
 
         <script src="js/vue.js"></script>
         <script src="js/app.js"></script>
