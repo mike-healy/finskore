@@ -20,6 +20,7 @@ body {
 #app {
     margin: 0 auto;
     max-width: 768px;
+    min-height: 87vh;
     position: relative;
 }
 

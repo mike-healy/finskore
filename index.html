@@ -96,6 +96,10 @@
                     <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
                 </p>
 
+                <p>
+                    <button @click="whoseTurn = scoringIndex; showScoreModal = false;" class="cancel">Set to {{ nameForScoring }} turn</button>
+                </p>
+
             </form>
 
 
