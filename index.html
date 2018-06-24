@@ -51,11 +51,6 @@
                     <button @click.prevent="addPlayer">Add to Game</button>
                 </p>
 
-                <p>
-                    <label for="playTo">Play To</label>
-                    <input type="number" min="12" max="1000" v-model.number="playToScore">
-                </p>
-
                 <p class="center">
                     <button @click.prevent="setupGame=false" class="cancel">close</button>
                     <button @click="startGame">Start Game</button>
@@ -66,21 +61,37 @@
             <!-- Enter players score for a turn -->
             <form class='enterScore' v-if="showScoreModal" @submit.prevent="saveScore()">
 
-                <h2>{{ nameForScoring }} Score</h2>
-                <p class="center">
-                    <input type="number" name="addScore" id="addScore" max="12" min="-12" step="1" placeholder="0">
-                    <button type="submit">Save</button>
-                </p>
+                <h2>{{ nameForScoring }} Game</h2>
 
-                <!-- TURN HISTORY -->
-                <div class='history' v-if="scoringNow.turns.length > 0">
-                    <div class='line'></div>
-                    <div class='turn' v-for="turn in scoringNow.turns">
-                        {{ turn }}
+                <div class="score-container">
+
+                    <div class='score' @click="saveScore">
+                        <button data-score="0" class="miss">MISS</button>
+                        <button data-score="1">1</button>
+                        <button data-score="2">2</button>
+                        <button data-score="3">3</button>
+                        <button data-score="4">4</button>
+                        <button data-score="5">5</button>
+                        <button data-score="6">6</button>
+                        <button data-score="7">7</button>
+                        <button data-score="8">8</button>
+                        <button data-score="9">9</button>
+                        <button data-score="10">10</button>
+                        <button data-score="11">11</button>
+                        <button data-score="12">12</button>
                     </div>
+
+                    <!-- TURN HISTORY -->
+                    <div class='history' v-if="scoringNow.turns.length > 0">
+                        <div class='line'></div>
+                        <div class='turn' v-for="turn in scoringNow.turns">
+                            {{ turn }}
+                        </div>
+                    </div>
+
                 </div>
 
-                <p class="top-space">
+                <p>
                     <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
                     <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
                 </p>
@@ -112,14 +123,16 @@
             </p>
 
 
-            <footer>
-                <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
-            </footer>
-
             <div class='themeSwitcher'>
                 <div @click="setTheme('default')" class='default'></div>
                 <div @click="setTheme('hot')" class='hot'></div>
             </div>
+
+            <footer>
+                <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
+
+                <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
+            </footer>
 
         </div> <!-- /#app -->
 

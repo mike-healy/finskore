@@ -155,6 +155,26 @@ form.enterScore {
     overflow: auto;
 }
 
+.score-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+div.score button {
+    width: 35%;
+    margin: 0 0.5rem 1.5rem 0.5rem;
+    font-weight: bold;
+}
+
+div.score button.miss {
+    width: 90%;
+}
+
+div.score button {
+    color: #d1ffd2;
+}
+
+
 
 /* Scoring History */
 .history {
@@ -175,7 +195,7 @@ form.enterScore {
 .history .turn {
     position: relative;
     z-index: 6;
-    margin: 1rem auto;
+    margin-bottom: 1rem;
     width: 3rem;
     height: 3rem;
     line-height: 3rem;
@@ -184,6 +204,7 @@ form.enterScore {
     background: #19596c;
     color: #77c97c;
 }
+
 
 /* Footer */
 footer {
@@ -198,6 +219,15 @@ footer a:hover {
     background: #6ebd73;
     color: #224241;
     text-decoration: none;
+}
+
+footer input[type=number] {
+    padding: 0.3rem;
+    font-size: inherit;
+    background: #469767;
+    color: #98f09b;
+    width: 3rem;
+    margin-left: 0.5rem;
 }
 
 .themeSwitcher {
@@ -241,6 +271,11 @@ body.theme-hot {
     border-color: #ff5722;
 }
 
+.theme-hot div.score button {
+    color: #fbfafb;
+    background: #e06b1f;
+}
+
 .theme-hot form {
     background: rgba(64, 31, 54, 0.96);
 }
@@ -277,4 +312,9 @@ body.theme-hot {
 .theme-hot .history .turn {
     background: #311d28;
     color: #de7a26;
+}
+
+.theme-hot footer input[type=number] {
+    background: #dd7926;
+    color: #fde5b5;
 }

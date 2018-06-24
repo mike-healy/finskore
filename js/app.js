@@ -90,15 +90,16 @@ const finskore = new Vue({
 
             this.showScoreModal = true;
             this.setupGame = false;
-
-            setTimeout(function() {
-                document.getElementById('addScore').focus();
-            }, 40);
+            
         },
 
-        saveScore() {
+        saveScore(event) {
 
-            let score = parseInt(document.getElementById('addScore').value);
+            if(typeof event === 'undefined') {
+                return;
+            }
+            
+            let score = parseInt(event.target.dataset.score);
             let index = this.players.indexOf(this.scoringNow);
 
             if(isNaN(score)) {
@@ -189,6 +190,8 @@ const finskore = new Vue({
 
         nextTurn() {
 
+            // todo FIX BUG -- if all players struck out goes to max call stack size (i.e. infinite loop)
+
             if(this.whoseTurn >= this.players.length-1) {
                 this.whoseTurn = 0;
             } else {
@@ -219,6 +222,7 @@ const finskore = new Vue({
                 this.players[i].score    = 0;
                 this.players[i].strikes  = 0;
                 this.players[i].position = 1;
+                this.players[i].turns = [];
             }
             this.whoseTurn = 0;
             this.scores = [];
