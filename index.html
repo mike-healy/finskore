@@ -72,6 +72,14 @@
                     <button type="submit">Save</button>
                 </p>
 
+                <!-- TURN HISTORY -->
+                <div class='history' v-if="scoringNow.turns.length > 0">
+                    <div class='line'></div>
+                    <div class='turn' v-for="turn in scoringNow.turns">
+                        {{ turn }}
+                    </div>
+                </div>
+
                 <p class="top-space">
                     <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
                     <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>

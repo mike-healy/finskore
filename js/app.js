@@ -44,11 +44,13 @@ const finskore = new Vue({
             this.players.push({
                 name: this.newPlayer,
                 score: 0,
+                turns: [], //history of scores
                 strikes: 0,
                 position: 1  //everyone's a winner, until they're not
             });
 
             this.newPlayer = '';
+            document.getElementById('newPlayer').focus();
         },
 
         deletePlayer() {
@@ -111,11 +113,13 @@ const finskore = new Vue({
                 this.scoringNow.strikes++;
             }
 
+            this.scoringNow.turns.unshift(score);
             this.scoringNow.score += score;
 
             //OVER QUOTA -- Whoops
             if(this.scoringNow.score > this.playToScore) {
                 this.scoringNow.score = this.resetTo;
+                this.scoringNow.turns.unshift('Over ' + this.playToScore);
                 this.scoringNow.theyBlewIt = true;
             } else {
                 this.scoringNow.theyBlewIt = false;

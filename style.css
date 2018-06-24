@@ -152,8 +152,38 @@ form.enterScore {
     width: 100%;
     height: 100%;
     text-align: center;
+    overflow: auto;
 }
 
+
+/* Scoring History */
+.history {
+    margin: 2rem auto;
+    max-width: 150px;
+    position: relative;
+}
+
+.history .line {
+    position: absolute;
+    z-index: 3;
+    left: 49%;
+    width: 3px;
+    height: 100%;
+    background: #19596c;
+}
+
+.history .turn {
+    position: relative;
+    z-index: 6;
+    margin: 1rem auto;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    border-radius: 50%;
+    text-align: center;
+    background: #19596c;
+    color: #77c97c;
+}
 
 /* Footer */
 footer {
@@ -225,6 +255,10 @@ body.theme-hot {
     color: #0a2c3c;
 }
 
+.theme-hot section.leaderboard > div {
+    border-bottom: 1px solid #efad26;
+}
+
 .theme-hot .player.winning .pos {
     color: #f7d182;
 }
@@ -235,4 +269,12 @@ body.theme-hot {
 
 .theme-hot .struckout {
     color: #924f34;
+}
+
+.theme-hot .history .line {
+    background: #311d28;
+}
+.theme-hot .history .turn {
+    background: #311d28;
+    color: #de7a26;
 }
