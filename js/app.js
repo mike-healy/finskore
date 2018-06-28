@@ -98,7 +98,12 @@ const finskore = new Vue({
             if(typeof event === 'undefined') {
                 return;
             }
-            
+
+            //Not a button click
+            if(typeof event.target.dataset.score === 'undefined') {
+                return;
+            }
+
             let score = parseInt(event.target.dataset.score);
             let index = this.players.indexOf(this.scoringNow);
 
@@ -120,7 +125,7 @@ const finskore = new Vue({
             //OVER QUOTA -- Whoops
             if(this.scoringNow.score > this.playToScore) {
                 this.scoringNow.score = this.resetTo;
-                this.scoringNow.turns.unshift('Over ' + this.playToScore);
+                this.scoringNow.turns.unshift(':(');
                 this.scoringNow.theyBlewIt = true;
             } else {
                 this.scoringNow.theyBlewIt = false;
@@ -246,6 +251,12 @@ const finskore = new Vue({
                     return p + 'rd';
                     break;
             }
+        },
+
+        //Stub. todo: integrate with strike count, position tracking
+        //This calculates score dynamically from turns, but doesn't update those things
+        showScore(turns) {
+            return turns.reduce((a, b) => a + b, 0);
         },
 
         setTheme(theme) {
