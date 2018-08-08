@@ -132,7 +132,7 @@ const finskore = new Vue({
             }
             
             //Copy score for sorting
-            this.updatePositions(index, this.scoringNow.score);
+            this.updatePositions();
 
             //Reset strikes if they got a hit
             if(score > 0) {
@@ -275,13 +275,21 @@ const finskore = new Vue({
         },
 
         nameForScoring() {
+            if(typeof this.scoringNow.name === 'undefined') {
+                return '';
+            }
+
             let name = this.scoringNow.name;
             if(name.substr(-1) !== 's') {
                 return name + "'s";
             }
             return name + "'";
         }
-    }
+    },
+
+    beforeUpdate() {
+       // todo save state in localStorage for safety
+    },
 
 });
 
