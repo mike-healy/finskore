@@ -401,6 +401,30 @@ export default {
             }
             return name + "'";
         }
+    },
+
+    created() {
+        //read state from local storage
+        if(localStorage.getItem('finskoreState')) {
+            let state = JSON.parse(localStorage.getItem('finskoreState'));
+
+            if(typeof state.players !== 'undefined') {
+                this.players = state.players;
+            }
+            this.playToScore = (!isNaN(state.playToScore) && state.playToScore > 0) ? state.playToScore : 50;
+            this.whoseTurn = state.whoseTurn;
+        }
+    },
+
+    updated() {
+        //Save state to localStorage in case of refresh
+        let state = {
+            playToScore: this.playToScore,
+            players: this.players,
+            whoseTurn: this.whoseTurn
+        };
+
+        localStorage.setItem('finskoreState', JSON.stringify(state));
     }
 }
 
