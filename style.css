@@ -161,22 +161,6 @@ form.enterScore {
     grid-template-columns: 50% 50%;
 }
 
-div.score button {
-    width: 35%;
-    margin: 0 0.5rem 1.5rem 0.5rem;
-    font-weight: bold;
-}
-
-div.score button.miss {
-    width: 90%;
-}
-
-div.score button {
-    color: #d1ffd2;
-}
-
-
-
 /* Scoring History */
 .history {
     margin: 2rem auto;

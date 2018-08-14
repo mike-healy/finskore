@@ -40,21 +40,7 @@
 
                 <div class="score-container">
 
-                    <div class='score' @click="saveScore">
-                        <button data-score="0" class="miss">MISS</button>
-                        <button data-score="1">1</button>
-                        <button data-score="2">2</button>
-                        <button data-score="3">3</button>
-                        <button data-score="4">4</button>
-                        <button data-score="5">5</button>
-                        <button data-score="6">6</button>
-                        <button data-score="7">7</button>
-                        <button data-score="8">8</button>
-                        <button data-score="9">9</button>
-                        <button data-score="10">10</button>
-                        <button data-score="11">11</button>
-                        <button data-score="12">12</button>
-                    </div>
+                    <ScoreEntryNumpad @saveScore="saveScore" />
 
                     <!-- TURN HISTORY -->
                     <div class='history' v-if="scoringNow.turns.length > 0">
@@ -119,7 +105,10 @@
 </template>
 
 <script>
+  import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
+
 export default {
+    components: { ScoreEntryNumpad },
     name: 'app',
 
     data () {
@@ -213,18 +202,13 @@ export default {
             
         },
 
-        saveScore(event) {
+        saveScore(value) {
 
-            if(typeof event === 'undefined') {
+            if(typeof value === 'undefined') {
                 return;
             }
             
-            //Not a button click
-            if(typeof event.target.dataset.score === 'undefined') {
-                return;
-            }
-
-            let score = parseInt(event.target.dataset.score);
+            let score = value;
             let index = this.players.indexOf(this.scoringNow);
 
             if(isNaN(score)) {
