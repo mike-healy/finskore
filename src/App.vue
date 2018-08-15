@@ -58,7 +58,7 @@
                 </p>
 
                 <p>
-                    <button @click="whoseTurn = scoringIndex; showScoreModal = false;" class="cancel">Set to {{ nameForScoring }} turn</button>
+                    <button @click="whoseTurn = selectedPlayerId; showScoreModal = false;" class="cancel">Set to {{ nameForScoring }} turn</button>
                 </p>
 
             </form>
@@ -112,7 +112,7 @@ export default {
             players: [],
 
             //State
-            scoringIndex: null,
+            selectedPlayerId: null,
             scoringNow: {}, //instance of current player being scored
             whoseTurn:  0,   //index
 
@@ -147,14 +147,14 @@ export default {
         addPlayer: addPlayer,
 
         deletePlayer() {
-            if(this.scoringIndex === null) {
+            if(this.selectedPlayerId === null) {
                 return;
             }
             if(!confirm('Remove ' + this.scoringNow.name + ' from the game?')) {
                 return;
             }
 
-            this.players.splice(this.scoringIndex, 1);
+            this.players.splice(this.selectedPlayerId, 1);
             this.showScoreModal = false;
         },
 
@@ -162,7 +162,7 @@ export default {
         handlePlayerSelectedFromLeaderboard(playerId) {
 
             //this.scoringNow.index = index;
-            this.scoringIndex = playerId;
+            this.selectedPlayerId = playerId;
             this.scoringNow = this.players[playerId];
 
             this.showScoreModal = true;
