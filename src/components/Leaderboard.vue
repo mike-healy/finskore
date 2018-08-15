@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import { hasStruckOut } from '../utils';
+  import { hasStruckOut } from '../Finskore';
 
   export default {
     name: 'Leaderboard',

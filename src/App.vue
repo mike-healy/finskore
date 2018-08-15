@@ -97,7 +97,7 @@
 	import Vue from 'vue';
   import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
   import Leaderboard from './components/Leaderboard.vue';
-  import { hasStruckOut, addPlayer } from './utils';
+  import { hasStruckOut, addPlayer } from './Finskore';
 
 export default {
     components: { ScoreEntryNumpad, Leaderboard },
