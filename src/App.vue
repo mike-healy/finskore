@@ -69,7 +69,7 @@
               :players="players"
               :currentTurnPlayerId="whoseTurn"
               :playToScore="playToScore"
-              @selectPlayer="enterScoreForm"
+              @selectPlayer="handlePlayerSelectedFromLeaderboard"
             />
 
             <p v-show="players.length > 0" class="right top-space">
@@ -159,15 +159,14 @@ export default {
         },
 
         //@var index player index
-        enterScoreForm(index) {
+        handlePlayerSelectedFromLeaderboard(playerId) {
 
             //this.scoringNow.index = index;
-            this.scoringIndex = index;
-            this.scoringNow = this.players[index];
+            this.scoringIndex = playerId;
+            this.scoringNow = this.players[playerId];
 
             this.showScoreModal = true;
             this.setupGame = false;
-            
         },
 
         saveScore(value) {
