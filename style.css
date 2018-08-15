@@ -37,64 +37,6 @@ section.winner {
     background: #1d1d1d;
 }
 
-/* Leaderboard */
-section.leaderboard > div.player {
-    display: flex;
-}
-
-section.leaderboard > div {
-    border-bottom: 1px solid #64bf64;
-}
-
-.player > div {
-    padding: 1rem;
-}
-
-.player.myturn {
-    background: #1b5f6b
-}
-.player.winning .pos{
-    background: #134a61;
-}
-
-.player .player {
-    flex-grow: 2;
-}
-.player .pos,
-.player .score,
-.player .togo {
-    flex-shrink: 1;
-}
-
-.player .score {
-    font-weight: bold;
-}
-.player .togo {
-    opacity: 0.6;
-}
-
-.player .name,
-.player .strikes {
-    padding: 0 0 0.2rem 0;
-}
-
-.player .name {
-    cursor: pointer;
-}
-.player .name img {
-    display: block;
-    margin-top: 4px;
-    width: 32px;
-    height: auto;
-    border: none;
-}
-
-.struckout {
-    text-decoration: line-through;
-    color: #a7d5ef;
-}
-
-
 form {
     background: rgba(12, 58, 80, 0.96);
     padding: 2rem;

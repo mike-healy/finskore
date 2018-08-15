@@ -65,23 +65,12 @@
 
 
             <!-- LEADERBOARD -->
-            <section class="leaderboard">
-                
-                <div v-for="(p, index) in players"
-                    :key="index"
-                    @click="enterScoreForm(index)"
-                    class="player"
-                    v-bind:class="{struckout: hasStruckOut(p), myturn: whoseTurn === index, winning: p.position === 1}">
-
-                    <div class='pos'>{{ showPosition(p.position) }}</div>
-                    <div class="player">
-                        <div class="name">{{ p.name }} <img v-show="p.theyBlewIt" src="img/sad.png" alt=":("></div>
-                        <div class="strikes">{{ showStrikes(p) }}</div>
-                    </div>
-                    <div class="score">{{ p.score }}</div>
-                    <div class="togo">{{ playToScore-p.score }}</div>
-                </div>
-            </section>
+            <Leaderboard
+              :players="players"
+              :turnIndex="whoseTurn"
+              :playToScore="playToScore"
+              @selectPlayer="enterScoreForm"
+            />
 
             <p v-show="players.length > 0" class="right top-space">
                 <button @click="resetGame" class="warning">Reset Everything</button>
@@ -106,9 +95,11 @@
 
 <script>
   import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
+  import Leaderboard from './components/Leaderboard.vue';
+  import { hasStruckOut } from './utils';
 
 export default {
-    components: { ScoreEntryNumpad },
+    components: { ScoreEntryNumpad, Leaderboard },
     name: 'app',
 
     data () {
@@ -172,22 +163,6 @@ export default {
 
             this.players.splice(this.scoringIndex, 1);
             this.showScoreModal = false;
-        },
-
-        hasStruckOut(player) {
-            return player.strikes >= 3;
-        },
-
-        showStrikes(player) {
-            let str = '';
-            if(player.strikes === 0) {
-                return str;
-            }
-
-            for(let i=0; i<player.strikes; i++) {
-                str += 'x ';
-            }
-            return str;
         },
 
         //@var index player index
@@ -262,11 +237,11 @@ export default {
                 scores.push({
                     index: index,
                     score: player.score,
-                    struckout: this.hasStruckOut(player)
+                    struckout: hasStruckOut(player)
                 });
             });
 
-            scores.sort( function(a,b) {
+            scores.sort(function(a,b) {
                 
                 if( (!a.struckout && !b.struckout) ||
                     (a.struckout && b.struckout) ) {
@@ -283,11 +258,10 @@ export default {
                 throw new Error('Your sorting logic is terrible. Just really bad mate.');
             });
 
-
             scores.forEach( (obj, index) => {
 
                 //Struck out ya loser
-                if( this.hasStruckOut(this.players[obj.index]) ) {
+                if( hasStruckOut(this.players[obj.index]) ) {
                     this.players[obj.index].position = this.players.length;
                 } else {
 
@@ -308,7 +282,7 @@ export default {
             }
 
             //Skip a struck out player
-            if( this.hasStruckOut(this.players[this.whoseTurn]) ) {
+            if( hasStruckOut(this.players[this.whoseTurn]) ) {
                 this.nextTurn();
             }
         },
@@ -336,25 +310,6 @@ export default {
             this.whoseTurn = 0;
             this.scores = [];
             this.gameInProgress = false;
-        },
-
-        // English-ify the numeric position
-        showPosition(p) {
-            // 1st, 2nd, 3rd, 4th, 5th, 
-            if(p >= 4) {
-                return p + 'th';
-            }
-            switch(p) {
-                case 1:
-                    return '1st';
-                    break;
-                case 2:
-                    return '2nd';
-                    break;
-                default:
-                    return p + 'rd';
-                    break;
-            }
         },
 
         //Stub. todo: integrate with strike count, position tracking
