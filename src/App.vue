@@ -6,7 +6,7 @@
             </header>
 
             <p v-show="!gameInProgress">
-                <button @click="createNewGame()">Add Players</button>
+                <button @click="openNewGameInterface()">Add Players</button>
             </p>
 
             <!-- DECLARE WINNER -->
@@ -18,16 +18,16 @@
             </section>
 
             <!-- SETUP GAME -->
-            <form v-if="setupGame" @submit.prevent="addPlayer" class="createGame">
+            <form v-if="showNewGameInterface" @submit.prevent="handleNewPlayerFormSubmit" class="createGame">
                 <h2>Add Players now</h2>
                 <p>
                     <label for="newPlayer">New Player</label>
-                    <input type="text" name="newPlayer" id="newPlayer" maxlength="20" required v-model="newPlayer">
-                    <button @click.prevent="addPlayer">Add to Game</button>
+                    <input ref="newPlayer" type="text" name="newPlayer" id="newPlayer" maxlength="20" required />
+                    <button type="submit">Add to Game</button>
                 </p>
 
                 <p class="center">
-                    <button @click.prevent="setupGame=false" class="cancel">close</button>
+                    <button @click.prevent="showNewGameInterface=false" class="cancel">close</button>
                     <button @click="startGame">Start Game</button>
                 </p>
             </form>
@@ -94,9 +94,10 @@
 </template>
 
 <script>
+	import Vue from 'vue';
   import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
   import Leaderboard from './components/Leaderboard.vue';
-  import { hasStruckOut } from './utils';
+  import { hasStruckOut, addPlayer } from './utils';
 
 export default {
     components: { ScoreEntryNumpad, Leaderboard },
@@ -116,7 +117,7 @@ export default {
             whoseTurn:  0,   //index
 
             gameInProgress: false,
-            setupGame: false,
+            showNewGameInterface: false,
             showScoreModal: false,
             newPlayer: '',
             winner: ''
@@ -124,34 +125,26 @@ export default {
     },
 
     methods: {
-        createNewGame() {
-            this.setupGame = true;
-
-            setTimeout(function() {
-                document.getElementById('newPlayer').focus();
-            }, 40);
+        openNewGameInterface() {
+            this.showNewGameInterface = true;
+            Vue.nextTick().then(() => this.$refs.newPlayer.focus());
         },
 
         startGame() {
-            this.setupGame = false;
+            this.showNewGameInterface = false;
         },
 
-        addPlayer() {
-            if(this.newPlayer === '') {
-                return;
-            }
+				handleNewPlayerFormSubmit() {
+					const input = this.$refs.newPlayer;
+					this.addPlayer({
+						name: input.value,
+						listOfPlayers: this.players,
+					});
+					input.value = '';
+					input.focus();
+				},
 
-            this.players.push({
-                name: this.newPlayer,
-                score: 0,
-                turns: [], //history of scores
-                strikes: 0,
-                position: 1  //everyone's a winner, until they're not
-            });
-
-            this.newPlayer = '';
-            document.getElementById('newPlayer').focus();
-        },
+        addPlayer: addPlayer,
 
         deletePlayer() {
             if(this.scoringIndex === null) {
