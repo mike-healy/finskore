@@ -46,7 +46,7 @@
                     <div class='history' v-if="scoringNow.turns.length > 0">
                         <div class='line'></div>
                         <div class='turn' v-for="turn in scoringNow.turns">
-                            {{ turn }}
+                            {{ turn ? turn : ':(' }}
                         </div>
                     </div>
 
