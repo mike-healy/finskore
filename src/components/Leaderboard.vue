@@ -6,7 +6,7 @@
       class="player"
       v-bind:class="{
         struckout: hasStruckOut(player),
-        myturn: turnIndex === index,
+        myturn: currentTurnPlayerId === index,
         winning: player.position === 1
       }"
     >
@@ -63,7 +63,7 @@
     },
     props: {
       players: { required: true, type: Array },
-      turnIndex: { required: true, type: Number },
+      currentTurnPlayerId: { required: true, type: Number },
       playToScore: { required: true, type: Number },
     }
   }

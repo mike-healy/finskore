@@ -67,7 +67,7 @@
             <!-- LEADERBOARD -->
             <Leaderboard
               :players="players"
-              :turnIndex="whoseTurn"
+              :currentTurnPlayerId="whoseTurn"
               :playToScore="playToScore"
               @selectPlayer="enterScoreForm"
             />
