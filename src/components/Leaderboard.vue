@@ -2,7 +2,7 @@
   <section class="leaderboard">
     <div v-for="(player, index) in players"
       :key="index"
-      @click="$emit('selectPlayer', index)"
+      @click="$emit('selectPlayer', player)"
       class="player"
       v-bind:class="{
         struckout: hasStruckOut(player),

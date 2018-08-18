@@ -32,37 +32,11 @@
                 </p>
             </form>
 
-
-            <!-- Enter players score for a turn -->
-            <form class='enterScore' v-if="showScoreModal" @submit.prevent="saveScore()">
-
-                <h2>{{ nameForScoring }} Game</h2>
-
-                <div class="score-container">
-
-                    <ScoreEntryNumpad @saveScore="saveScore" />
-
-                    <!-- TURN HISTORY -->
-                    <div class='history' v-if="scoringNow.turns.length > 0">
-                        <div class='line'></div>
-                        <div class='turn' v-for="turn in scoringNow.turns">
-                            {{ turn ? turn : ':(' }}
-                        </div>
-                    </div>
-
-                </div>
-
-                <p>
-                    <button v-if="!gameInProgress" @click.prevent="deletePlayer" class="warning">Delete</button>
-                    <button @click.prevent="showScoreModal=false" class="cancel">Cancel</button>
-                </p>
-
-                <p>
-                    <button @click="whoseTurn = selectedPlayerId; showScoreModal = false;" class="cancel">Set to {{ nameForScoring }} turn</button>
-                </p>
-
-            </form>
-
+						<SelectedPlayerView
+							v-if="showScoreModal"
+							:player="selectedPlayer"
+							:saveScore="saveScore"
+						/>
 
             <!-- LEADERBOARD -->
             <Leaderboard
@@ -95,12 +69,14 @@
 
 <script>
 	import Vue from 'vue';
+	import uuid from 'uuid/v4';
   import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
   import Leaderboard from './components/Leaderboard.vue';
+	import SelectedPlayerView from './components/SelectedPlayerView';
   import { hasStruckOut, addPlayer } from './Finskore';
 
 export default {
-    components: { ScoreEntryNumpad, Leaderboard },
+    components: { ScoreEntryNumpad, Leaderboard, SelectedPlayerView },
     name: 'app',
 
     data () {
@@ -112,8 +88,7 @@ export default {
             players: [],
 
             //State
-            selectedPlayerId: null,
-            scoringNow: {}, //instance of current player being scored
+            selectedPlayer: null, //instance of current player being scored
             whoseTurn:  0,   //index
 
             gameInProgress: false,
@@ -127,18 +102,18 @@ export default {
     methods: {
         openNewGameInterface() {
             this.showNewGameInterface = true;
-            Vue.nextTick().then(() => this.$refs.newPlayer.focus());
+            // Vue.nextTick().then(() => this.$refs.newPlayer.focus());
         },
 
         startGame() {
             this.showNewGameInterface = false;
         },
-
 				handleNewPlayerFormSubmit() {
 					const input = this.$refs.newPlayer;
 					this.addPlayer({
 						name: input.value,
 						listOfPlayers: this.players,
+						id: uuid(),
 					});
 					input.value = '';
 					input.focus();
@@ -147,24 +122,20 @@ export default {
         addPlayer: addPlayer,
 
         deletePlayer() {
-            if(this.selectedPlayerId === null) {
-                return;
-            }
-            if(!confirm('Remove ' + this.scoringNow.name + ' from the game?')) {
+						const selectedPlayer = this.selectedPlayer;
+						const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
+
+            if(!confirm('Remove ' + selectedPlayer.name + ' from the game?')) {
                 return;
             }
 
-            this.players.splice(this.selectedPlayerId, 1);
+            this.players.splice(selectedPlayerIndex, 1);
             this.showScoreModal = false;
         },
 
         //@var index player index
-        handlePlayerSelectedFromLeaderboard(playerId) {
-
-            //this.scoringNow.index = index;
-            this.selectedPlayerId = playerId;
-            this.scoringNow = this.players[playerId];
-
+        handlePlayerSelectedFromLeaderboard(player) {
+            this.selectedPlayer = player;
             this.showScoreModal = true;
             this.setupGame = false;
         },
@@ -174,9 +145,10 @@ export default {
             if(typeof value === 'undefined') {
                 return;
             }
+						const selectedPlayer = this.selectedPlayer;
             
             let score = value;
-            let index = this.players.indexOf(this.scoringNow);
+            let index = this.players.indexOf(selectedPlayer);
 
             if(isNaN(score)) {
                 score = 0;
@@ -187,32 +159,32 @@ export default {
 
             //Swing and a miss
             if(score === 0) {
-                this.scoringNow.strikes++;
+                selectedPlayer.strikes++;
             }
 
-            this.scoringNow.turns.unshift(score);
-            this.scoringNow.score += score;
+            selectedPlayer.turns.unshift(score);
+            selectedPlayer.score += score;
 
             //OVER QUOTA -- Whoops
-            if(this.scoringNow.score > this.playToScore) {
-                this.scoringNow.score = this.resetTo;
-                this.scoringNow.turns.unshift(':(');
-                this.scoringNow.theyBlewIt = true;
+            if(selectedPlayer.score > this.playToScore) {
+                selectedPlayer.score = this.resetTo;
+                selectedPlayer.turns.unshift(':(');
+                selectedPlayer.theyBlewIt = true;
             } else {
-                this.scoringNow.theyBlewIt = false;
+                selectedPlayer.theyBlewIt = false;
             }
             
             //Copy score for sorting
-            this.updatePositions(index, this.scoringNow.score);
+            this.updatePositions(index, selectedPlayer.score);
 
             //Reset strikes if they got a hit
             if(score > 0) {
-                this.scoringNow.strikes = 0;
+                selectedPlayer.strikes = 0;
             }
 
             //Declare winner
-            if(this.scoringNow.score === this.playToScore) {
-                this.winner = this.scoringNow.name;
+            if(selectedPlayer.score === this.playToScore) {
+                this.winner = selectedPlayer.name;
                 return;
             }
 
@@ -326,7 +298,7 @@ export default {
         },
 
         nameForScoring() {
-            let name = this.scoringNow.name;
+            let name = this.selectedPlayer.name;
             if(name.substr(-1) !== 's') {
                 return name + "'s";
             }
