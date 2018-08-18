@@ -1,82 +1,78 @@
 <template>
   <div id="app">
-            <header>
-                <h1>Finskore</h1>
-                <p>Online scoring app for Finska, Klop &amp; Molkky</p>
-            </header>
+    <header>
+      <h1>Finskore</h1>
+      <p>Online scoring app for Finska, Klop &amp; Molkky</p>
+    </header>
 
-            <p v-show="!gameInProgress">
-                <button @click="openNewGameInterface()">Add Players</button>
-            </p>
+    <p v-show="!gameInProgress">
+      <button @click="openNewGameInterface()">Add Players</button>
+    </p>
 
-            <!-- DECLARE WINNER -->
-            <section v-show="winner !== ''" class="winner">
-                <h2>{{ winner }} Won!</h2>
-                <p>
-                    <button class="cancel" @click="winner=''">close</button>
-                </p>
-            </section>
+    <!-- DECLARE WINNER -->
+    <section v-show="winner !== ''" class="winner">
+      <h2>{{ winner }} Won!</h2>
+      <p>
+        <button class="cancel" @click="winner=''">close</button>
+      </p>
+    </section>
 
-            <!-- SETUP GAME -->
-            <form v-if="showNewGameInterface" @submit.prevent="handleNewPlayerFormSubmit" class="createGame">
-                <h2>Add Players now</h2>
-                <p>
-                    <label for="newPlayer">New Player</label>
-                    <input ref="newPlayer" type="text" name="newPlayer" id="newPlayer" maxlength="20" required />
-                    <button type="submit">Add to Game</button>
-                </p>
+    <SetupGame
+      v-if="showNewGameInterface"
+      :addPlayer="addPlayer"
+      :startGame="startGame"
+      :closeNewGameInterface="closeNewGameInterface"
+    />
 
-                <p class="center">
-                    <button @click.prevent="showNewGameInterface=false" class="cancel">close</button>
-                    <button @click="startGame">Start Game</button>
-                </p>
-            </form>
+    <SelectedPlayerView
+      v-if="showScoreModal"
+      :player="selectedPlayer"
+      :gameInProgress="gameInProgress"
+      :saveScore="saveScore"
+      :cancel="closeSelectedPlayer"
+      :changeWhoseTurnItIs="changeWhoseTurnItIs"
+      :deletePlayer="deletePlayer"
+    />
 
-						<SelectedPlayerView
-							v-if="showScoreModal"
-							:player="selectedPlayer"
-							:saveScore="saveScore"
-						/>
+    <Leaderboard
+      :players="players"
+      :currentTurnPlayerId="whoseTurn"
+      :playToScore="playToScore"
+      @selectPlayer="handlePlayerSelectedFromLeaderboard"
+    />
 
-            <!-- LEADERBOARD -->
-            <Leaderboard
-              :players="players"
-              :currentTurnPlayerId="whoseTurn"
-              :playToScore="playToScore"
-              @selectPlayer="handlePlayerSelectedFromLeaderboard"
-            />
-
-            <p v-show="players.length > 0" class="right top-space">
-                <button @click="resetGame" class="warning">Reset Everything</button>
-                <button @click="resetScores">Reset Scores</button>
-            </p>
+    <p v-show="players.length > 0" class="right top-space">
+      <button @click="resetGame" class="warning">Reset Everything</button>
+      <button @click="resetScores">Reset Scores</button>
+    </p>
 
 
-            <div class='themeSwitcher'>
-                <div @click="setTheme('default')" class='default'></div>
-                <div @click="setTheme('hot')" class='hot'></div>
-            </div>
+    <div class='themeSwitcher'>
+      <div @click="setTheme('default')" class='default'></div>
+      <div @click="setTheme('hot')" class='hot'></div>
+    </div>
 
-            <footer>
-                <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
+    <footer>
+      <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
 
-                <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
-            </footer>
-
-        </div> <!-- /#app -->
-  </div>
+      <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
+    </footer>
+  </div> <!-- /#app -->
 </template>
 
 <script>
-	import Vue from 'vue';
-	import uuid from 'uuid/v4';
-  import ScoreEntryNumpad from './components/ScoreEntryNumpad.vue';
+  import Vue from 'vue';
   import Leaderboard from './components/Leaderboard.vue';
-	import SelectedPlayerView from './components/SelectedPlayerView';
-  import { hasStruckOut, addPlayer } from './Finskore';
+  import SelectedPlayerView from './components/SelectedPlayerView';
+  import SetupGame from './components/SetupGame';
+  import Finskore from './Finskore';
 
 export default {
-    components: { ScoreEntryNumpad, Leaderboard, SelectedPlayerView },
+    components: {
+      Leaderboard,
+      SelectedPlayerView,
+      SetupGame
+    },
     name: 'app',
 
     data () {
@@ -88,7 +84,7 @@ export default {
             players: [],
 
             //State
-            selectedPlayer: null, //instance of current player being scored
+            selectedPlayer: undefined, //instance of current player being scored
             whoseTurn:  0,   //index
 
             gameInProgress: false,
@@ -100,60 +96,57 @@ export default {
     },
 
     methods: {
+        changeWhoseTurnItIs(playerId) {
+          const selectedPlayer = this.players.find((player) => (player.id === playerId));
+          const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
+          this.whoseTurn = selectedPlayerIndex;
+          this.showScoreModal = false;
+        },
+        closeSelectedPlayer() {
+          this.showScoreModal = false;
+        },
         openNewGameInterface() {
             this.showNewGameInterface = true;
-            // Vue.nextTick().then(() => this.$refs.newPlayer.focus());
         },
-
-        startGame() {
+        closeNewGameInterface() {
             this.showNewGameInterface = false;
         },
-				handleNewPlayerFormSubmit() {
-					const input = this.$refs.newPlayer;
-					this.addPlayer({
-						name: input.value,
-						listOfPlayers: this.players,
-						id: uuid(),
-					});
-					input.value = '';
-					input.focus();
-				},
+        startGame() {
+            this.showNewGameInterface = false;
+            this.gameInProgress = true;
+        },
 
-        addPlayer: addPlayer,
+        addPlayer({ name }) {
+          this.players = Finskore.addPlayer({name, players: this.players});
+        },
 
-        deletePlayer() {
-						const selectedPlayer = this.selectedPlayer;
-						const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
+        deletePlayer(playerId) {
+          const selectedPlayer = this.players.find((player) => (player.id === playerId));
+          const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
 
-            if(!confirm('Remove ' + selectedPlayer.name + ' from the game?')) {
-                return;
-            }
+          if(!confirm('Remove ' + selectedPlayer.name + ' from the game?')) {
+              return;
+          }
 
-            this.players.splice(selectedPlayerIndex, 1);
-            this.showScoreModal = false;
+          this.players.splice(selectedPlayerIndex, 1);
+          this.showScoreModal = false;
         },
 
         //@var index player index
         handlePlayerSelectedFromLeaderboard(player) {
             this.selectedPlayer = player;
-            this.showScoreModal = true;
             this.setupGame = false;
+            this.showScoreModal = true;
         },
 
-        saveScore(value) {
-
-            if(typeof value === 'undefined') {
+      saveScore({ score, playerId }) {
+            if(typeof score === 'undefined') {
                 return;
             }
-						const selectedPlayer = this.selectedPlayer;
+          const selectedPlayer = this.players.find((player) => (player.id === playerId));
             
-            let score = value;
             let index = this.players.indexOf(selectedPlayer);
 
-            if(isNaN(score)) {
-                score = 0;
-            }
-            
             this.gameInProgress = true;
             this.showScoreModal = false;
 
@@ -201,7 +194,7 @@ export default {
                 scores.push({
                     index: index,
                     score: player.score,
-                    struckout: hasStruckOut(player)
+                    struckout: Finskore.hasStruckOut(player)
                 });
             });
 
@@ -225,7 +218,7 @@ export default {
             scores.forEach( (obj, index) => {
 
                 //Struck out ya loser
-                if( hasStruckOut(this.players[obj.index]) ) {
+                if( Finskore.hasStruckOut(this.players[obj.index]) ) {
                     this.players[obj.index].position = this.players.length;
                 } else {
 
@@ -246,7 +239,7 @@ export default {
             }
 
             //Skip a struck out player
-            if( hasStruckOut(this.players[this.whoseTurn]) ) {
+            if( Finskore.hasStruckOut(this.players[this.whoseTurn]) ) {
                 this.nextTurn();
             }
         },

@@ -2,8 +2,9 @@
   <div class='score'>
     <button
       v-for="score in listOfValidScores"
-      @click="$emit('saveScore', score)"
+      @click="onScoreSelection(score)"
       v-bind:class="[score ? 'score' : 'miss']"
+      v-bind:key="score"
     >
       {{ score || 'MISS' }}
     </button>
@@ -15,6 +16,12 @@
     data () {
       return {
         listOfValidScores: Array.from(Array(13).keys()) // creates array 0 to 12
+      }
+    },
+    props: {
+      onScoreSelection: {
+        type: Function,
+        required: true
       }
     }
   };

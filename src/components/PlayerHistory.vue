@@ -1,7 +1,7 @@
 <template>
   <div class='history' v-if="player.turns.length > 0">
     <div class='line'></div>
-    <div class='turn' v-for="turn in player.turns">
+    <div class='turn' v-for="(turn, index) in player.turns" :key="index">
       {{ turn ? turn : ':(' }}
     </div>
   </div>
@@ -12,7 +12,7 @@
     name: 'PlayerHistory',
     props: {
       player: {
-        type: 'Number',
+        type: Object,
         required: true,
       }
     }
