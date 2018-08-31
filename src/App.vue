@@ -319,7 +319,7 @@ export default {
 
         players: {
             handler(updatedPlayers) {
-                this.players.forEach((player, index) => {
+                updatedPlayers.forEach((player, index) => {
                   this.players[index].score = player.turns.reduce(((a, b) => a + b), 0);
                 })
             },
