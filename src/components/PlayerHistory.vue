@@ -19,6 +19,8 @@
     methods: {
       updateScore($event, index) {
         this.player.turns[index] = parseInt($event.target.innerHTML)
+
+        this.$emit('updateHistory', this.player.turns)
       }
     }
   }

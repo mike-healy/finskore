@@ -26,6 +26,7 @@
 
     <SelectedPlayerView
       v-if="showScoreModal"
+      @updateHistory="updateHistory"
       :player="selectedPlayer"
       :gameInProgress="gameInProgress"
       :saveScore="saveScore"
@@ -120,6 +121,13 @@ export default {
           this.players = Finskore.addPlayer({name, players: this.players});
         },
 
+        getSelectedPlayerIndex() {
+          const selectedPlayer = this.players.find((player) => (player.id === this.selectedPlayer.id));
+          const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
+
+          return selectedPlayerIndex
+        },
+
         deletePlayer(playerId) {
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
           const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
@@ -137,6 +145,14 @@ export default {
             this.selectedPlayer = player;
             this.setupGame = false;
             this.showScoreModal = true;
+        },
+
+        updateHistory(turns) {
+          this.selectedPlayer.turns = turns
+
+          const index = this.getSelectedPlayerIndex()
+
+          this.players[index].turns = turns
         },
 
       saveScore({ score, playerId }) {
