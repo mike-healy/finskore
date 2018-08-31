@@ -144,7 +144,7 @@ export default {
                 return;
             }
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
-            
+
             let index = this.players.indexOf(selectedPlayer);
 
             this.gameInProgress = true;
@@ -166,7 +166,7 @@ export default {
             } else {
                 selectedPlayer.theyBlewIt = false;
             }
-            
+
             //Copy score for sorting
             this.updatePositions(index, selectedPlayer.score);
 
@@ -187,9 +187,9 @@ export default {
         // Update players position after each turn
         // bug: won't set a new leader if the current one strikes out
         updatePositions() {
-            
+
             let scores = [];
-            
+
             this.players.forEach( (player, index) => {
                 scores.push({
                     index: index,
@@ -199,10 +199,10 @@ export default {
             });
 
             scores.sort(function(a,b) {
-                
+
                 if( (!a.struckout && !b.struckout) ||
                     (a.struckout && b.struckout) ) {
-                    
+
                     return a.score < b.score;
                 }
 
@@ -297,6 +297,19 @@ export default {
             }
             return name + "'";
         }
+    },
+
+    watch: {
+
+        players: {
+            handler(updatedPlayers) {
+                this.players.forEach((player, index) => {
+                  this.players[index].score = player.turns.reduce(((a, b) => a + b), 0);
+                })
+            },
+            deep: true
+        }
+
     },
 
     created() {
