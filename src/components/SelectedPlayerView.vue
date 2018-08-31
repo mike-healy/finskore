@@ -5,7 +5,7 @@
 
     <div class="score-container">
       <ScoreEntryNumpad :onScoreSelection="scoreSelected" />
-      <PlayerHistory :player="player" @updateHistory="updateHistory" />
+      <PlayerHistory :player="player" @updateHistory="turn => $emit('updateHistory', turn)" />
     </div>
 
     <p>
@@ -67,9 +67,6 @@
     methods: {
       scoreSelected(score) {
         this.saveScore({ score, playerId: this.player.id })
-      },
-      updateHistory(turn) {
-        this.$emit('updateHistory', turn)
       }
     }
   }
