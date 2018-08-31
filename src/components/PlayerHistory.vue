@@ -18,9 +18,16 @@
     },
     methods: {
       updateScore($event, index) {
-        this.player.turns[index] = parseInt($event.target.innerHTML)
+        const newScore = parseInt($event.target.innerHTML)
 
-        this.$emit('updateHistory', this.player.turns)
+        if (newScore) {
+          this.player.turns[index] = newScore
+
+          this.$emit('updateHistory', {
+            turnIndex: index,
+            newScore
+          })
+        }
       }
     }
   }

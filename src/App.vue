@@ -147,12 +147,12 @@ export default {
             this.showScoreModal = true;
         },
 
-        updateHistory(turns) {
-          this.selectedPlayer.turns = turns
+        updateHistory({ turnIndex, newScore }) {
+          this.selectedPlayer.turns[turnIndex] = newScore
 
           const index = this.getSelectedPlayerIndex()
 
-          this.players[index].turns = turns
+          this.players[index].turns[turnIndex] = newScore
         },
 
       saveScore({ score, playerId }) {

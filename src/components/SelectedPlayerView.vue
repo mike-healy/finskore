@@ -68,8 +68,8 @@
       scoreSelected(score) {
         this.saveScore({ score, playerId: this.player.id })
       },
-      updateHistory(turns) {
-        this.$emit('updateHistory', turns)
+      updateHistory(turn) {
+        this.$emit('updateHistory', turn)
       }
     }
   }
