@@ -21,8 +21,6 @@
         const newScore = parseInt($event.target.innerHTML)
 
         if (newScore) {
-          this.player.turns[index] = newScore
-
           this.$emit('updateHistory', {
             turnIndex: index,
             newScore
