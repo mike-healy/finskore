@@ -121,13 +121,6 @@ export default {
           this.players = Finskore.addPlayer({name, players: this.players});
         },
 
-        getSelectedPlayerIndex() {
-          const selectedPlayer = this.players.find((player) => (player.id === this.selectedPlayer.id));
-          const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
-
-          return selectedPlayerIndex
-        },
-
         deletePlayer(playerId) {
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
           const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
@@ -312,6 +305,10 @@ export default {
                 return name + "'s";
             }
             return name + "'";
+        },
+
+        selectedPlayerIndex() {
+          return this.players.indexOf(this.selectedPlayer)
         }
     },
 
