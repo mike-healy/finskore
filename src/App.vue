@@ -143,7 +143,7 @@ export default {
         updateHistory({ turnIndex, newScore }) {
           this.selectedPlayer.turns[turnIndex] = newScore
 
-          const index = this.getSelectedPlayerIndex()
+          const index = this.selectedPlayerIndex
 
           this.players[index].turns[turnIndex] = newScore
         },
