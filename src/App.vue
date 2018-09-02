@@ -42,6 +42,12 @@
       @selectPlayer="handlePlayerSelectedFromLeaderboard"
     />
 
+    <Arrangement
+        :showArrangementGuide = showArrangementGuide
+        @hide="showArrangementGuide = false"
+        v-show="showArrangementGuide"
+    />
+
     <p v-show="players.length > 0" class="right top-space">
       <button @click="resetGame" class="warning">Reset Everything</button>
       <button @click="resetScores">Reset Scores</button>
@@ -54,9 +60,10 @@
     </div>
 
     <footer>
-      <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
+        <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
+        <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
 
-      <p><a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
+        <p><a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
     </footer>
   </div> <!-- /#app -->
 </template>
@@ -66,12 +73,14 @@
   import Leaderboard from './components/Leaderboard.vue';
   import SelectedPlayerView from './components/SelectedPlayerView';
   import SetupGame from './components/SetupGame';
+  import Arrangement from './components/Arrangement.vue';
   import Finskore from './Finskore';
 
 export default {
     components: {
       Leaderboard,
       SelectedPlayerView,
+      Arrangement,
       SetupGame
     },
     name: 'app',
@@ -79,6 +88,7 @@ export default {
     data () {
         return {
             theme: 'default',
+            showArrangementGuide: false,
 
             //Config
             playToScore: 50,
@@ -97,6 +107,7 @@ export default {
     },
 
     methods: {
+
         changeWhoseTurnItIs(playerId) {
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
           const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
@@ -373,4 +384,13 @@ if( localStorage.getItem('theme') ) {
 </script>
 
 <style lang="scss">
+footer p {
+    margin-bottom: 1.5rem;
+}
+
+img.arrangement {
+    border-radius: 4px;
+    max-width: 60px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
 </style>
