@@ -56,7 +56,7 @@
     <footer>
       <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
 
-      <p>By <a href="https://www.mikehealy.com.au" rel="noopener">Mike Healy</a>. <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
+      <p><a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
     </footer>
   </div> <!-- /#app -->
 </template>
@@ -160,11 +160,11 @@ export default {
           this.players[index].score = this.selectedPlayer.score
         },
 
-      saveScore({ score, playerId }) {
+        saveScore({ score, playerId }) {
             if(typeof score === 'undefined') {
                 return;
             }
-          const selectedPlayer = this.players.find((player) => (player.id === playerId));
+            const selectedPlayer = this.players.find((player) => (player.id === playerId));
 
             let index = this.players.indexOf(selectedPlayer);
 
@@ -181,8 +181,10 @@ export default {
 
             //OVER QUOTA -- Whoops
             if(selectedPlayer.score > this.playToScore) {
-                selectedPlayer.score = this.resetTo;
-                selectedPlayer.turns.unshift(':(');
+
+                //push negative score to history, to bring player back to the 'resetTo' (25)
+                selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
+                    // selectedPlayer.turns.unshift(0);
                 selectedPlayer.theyBlewIt = true;
             } else {
                 selectedPlayer.theyBlewIt = false;
@@ -283,6 +285,7 @@ export default {
                 this.players[i].score    = 0;
                 this.players[i].strikes  = 0;
                 this.players[i].position = 1;
+                this.players[i].theyBlewIt = false;
                 this.players[i].turns = [];
             }
             this.whoseTurn = 0;

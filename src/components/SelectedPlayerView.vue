@@ -16,7 +16,7 @@
        >
         Delete
       </button>
-      <button @click.prevent="cancel" class="cancel">Cancel</button>
+      <button @click.prevent="cancel" class="cancel">Close</button>
     </p>
 
     <p>

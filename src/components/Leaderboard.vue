@@ -96,6 +96,8 @@
   .player .score,
   .player .togo {
       flex-shrink: 1;
+      min-width: 3rem;
+      text-align: right;
   }
 
   .player .score {
