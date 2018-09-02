@@ -144,8 +144,20 @@ export default {
           this.selectedPlayer.turns[turnIndex] = newScore
 
           const index = this.selectedPlayerIndex
+          const { turns } = this.players[index]
 
-          this.players[index].turns[turnIndex] = newScore
+          turns[turnIndex] = newScore
+
+          /**
+           * Figure out why $watch doesn't pay attention to this change.
+           */
+          Object.assign(this.players[index], { turns })
+
+          /**
+           * HACK: Just manually update the player score.
+           */
+          this.selectedPlayer.score = this.selectedPlayer.turns.reduce((a, b) => a + b, 0)
+          this.players[index].score = this.selectedPlayer.score
         },
 
       saveScore({ score, playerId }) {
