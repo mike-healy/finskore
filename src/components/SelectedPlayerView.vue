@@ -5,7 +5,7 @@
 
     <div class="score-container">
       <ScoreEntryNumpad :onScoreSelection="scoreSelected" />
-      <PlayerHistory :player="player"/>
+      <PlayerHistory :player="player" @updateHistory="turn => $emit('updateHistory', turn)" />
     </div>
 
     <p>
@@ -62,7 +62,7 @@
       changeWhoseTurnItIs: {
         type: Function,
         required: true
-      } 
+      }
     },
     methods: {
       scoreSelected(score) {

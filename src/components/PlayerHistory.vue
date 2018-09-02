@@ -1,7 +1,7 @@
 <template>
   <div class='history' v-if="player.turns.length > 0">
     <div class='line'></div>
-    <div class='turn' v-for="(turn, index) in player.turns" :key="index">
+    <div class='turn' v-for="(turn, index) in player.turns" :key="index" @input="updateScore($event, index)" contenteditable>
       {{ turn ? turn : ':(' }}
     </div>
   </div>
@@ -14,6 +14,18 @@
       player: {
         type: Object,
         required: true,
+      }
+    },
+    methods: {
+      updateScore($event, index) {
+        const newScore = parseInt($event.target.innerHTML)
+
+        if (newScore) {
+          this.$emit('updateHistory', {
+            turnIndex: index,
+            newScore
+          })
+        }
       }
     }
   }

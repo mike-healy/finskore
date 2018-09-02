@@ -26,6 +26,7 @@
 
     <SelectedPlayerView
       v-if="showScoreModal"
+      @updateHistory="updateHistory"
       :player="selectedPlayer"
       :gameInProgress="gameInProgress"
       :saveScore="saveScore"
@@ -139,12 +140,32 @@ export default {
             this.showScoreModal = true;
         },
 
+        updateHistory({ turnIndex, newScore }) {
+          this.selectedPlayer.turns[turnIndex] = newScore
+
+          const index = this.selectedPlayerIndex
+          const { turns } = this.players[index]
+
+          turns[turnIndex] = newScore
+
+          /**
+           * Figure out why $watch doesn't pay attention to this change.
+           */
+          Object.assign(this.players[index], { turns })
+
+          /**
+           * HACK: Just manually update the player score.
+           */
+          this.selectedPlayer.score = this.selectedPlayer.turns.reduce((a, b) => a + b, 0)
+          this.players[index].score = this.selectedPlayer.score
+        },
+
       saveScore({ score, playerId }) {
             if(typeof score === 'undefined') {
                 return;
             }
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
-            
+
             let index = this.players.indexOf(selectedPlayer);
 
             this.gameInProgress = true;
@@ -166,7 +187,7 @@ export default {
             } else {
                 selectedPlayer.theyBlewIt = false;
             }
-            
+
             //Copy score for sorting
             this.updatePositions(index, selectedPlayer.score);
 
@@ -187,9 +208,9 @@ export default {
         // Update players position after each turn
         // bug: won't set a new leader if the current one strikes out
         updatePositions() {
-            
+
             let scores = [];
-            
+
             this.players.forEach( (player, index) => {
                 scores.push({
                     index: index,
@@ -199,10 +220,10 @@ export default {
             });
 
             scores.sort(function(a,b) {
-                
+
                 if( (!a.struckout && !b.struckout) ||
                     (a.struckout && b.struckout) ) {
-                    
+
                     return a.score < b.score;
                 }
 
@@ -296,7 +317,24 @@ export default {
                 return name + "'s";
             }
             return name + "'";
+        },
+
+        selectedPlayerIndex() {
+          return this.players.indexOf(this.selectedPlayer)
         }
+    },
+
+    watch: {
+
+        players: {
+            handler(updatedPlayers) {
+                updatedPlayers.forEach((player, index) => {
+                  this.players[index].score = player.turns.reduce(((a, b) => a + b), 0);
+                })
+            },
+            deep: true
+        }
+
     },
 
     created() {
