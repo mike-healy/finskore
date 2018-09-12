@@ -166,9 +166,15 @@ export default {
 
           /**
            * HACK: Just manually update the player score.
+           * (acts to clear computed, to trigger recalculation)
            */
-          this.selectedPlayer.score = this.selectedPlayer.turns.reduce((a, b) => a + b, 0)
-          this.players[index].score = this.selectedPlayer.score
+          let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
+              let subtotal = sum + turn;
+              return subtotal > this.playToScore ? this.resetTo : subtotal;
+          }, 0);
+
+          this.selectedPlayer.score = newTotal;
+          this.players[index].score = newTotal;
         },
 
         saveScore({ score, playerId }) {
@@ -194,7 +200,7 @@ export default {
             if(selectedPlayer.score > this.playToScore) {
 
                 //push negative score to history, to bring player back to the 'resetTo' (25)
-                selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
+                    //OFF selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
                     // selectedPlayer.turns.unshift(0);
                 selectedPlayer.theyBlewIt = true;
             } else {
@@ -343,7 +349,12 @@ export default {
         players: {
             handler(updatedPlayers) {
                 updatedPlayers.forEach((player, index) => {
-                  this.players[index].score = player.turns.reduce(((a, b) => a + b), 0);
+
+                  //Back to 
+                  this.players[index].score = player.turns.reduce(((sum, turn) => {
+                      let subtotal = sum + turn;
+                      return subtotal > this.playToScore ? this.resetTo : subtotal;
+                  }), 0);
                 })
             },
             deep: true

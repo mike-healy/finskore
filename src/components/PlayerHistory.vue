@@ -1,7 +1,7 @@
 <template>
   <div class='history' v-if="player.turns.length > 0">
     <div class='line'></div>
-    <div class='turn' v-for="(turn, index) in player.turns" :key="index" @input="updateScore($event, index)" contenteditable>
+    <div class='turn' v-for="(turn, index) in player.turns" :key="index" @blur="updateScore($event, index)" contenteditable>
       {{ turn ? turn : ':(' }}
     </div>
   </div>
@@ -18,14 +18,19 @@
     },
     methods: {
       updateScore($event, index) {
-        const newScore = parseInt($event.target.innerHTML)
+        
+        let newScore = parseInt( $event.target.innerHTML.replace(/[^0-9]/g, '') );
+        newScore = (newScore <  0) ?  0 : newScore;
+        newScore = (newScore > 12) ? 12 : newScore;
+        $event.target.innerHTML = newScore;
 
-        if (newScore) {
+        if ( !isNaN(newScore) ) {
           this.$emit('updateHistory', {
             turnIndex: index,
             newScore
           })
         }
+
       }
     }
   }
