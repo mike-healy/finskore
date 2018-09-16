@@ -1,23 +1,39 @@
 <template>
   <div class='history' v-if="player.turns.length > 0">
     <div class='line'></div>
-    <div class='turn' v-for="(turn, index) in player.turns" :key="index" @blur="updateScore($event, index)" contenteditable>
+    <div
+      v-for="(turn, index) in player.turns"
+      :key="index"
+      class='turn'
+      :class='{editing: editingTurnIndex === index}'
+      @click="enterScoreMode($event, index)"
+    >
       {{ turn ? turn : ':(' }}
     </div>
   </div>
 </template>
 
 <script>
+// @blur="updateScore($event, index)"
+
   export default {
     name: 'PlayerHistory',
+    
     props: {
       player: {
         type: Object,
         required: true,
       }
     },
+
+    data() {
+      return {
+        editingTurnIndex: null
+      }
+    },
+
     methods: {
-      updateScore($event, index) {
+      /* updateScore($event, index) {
         
         let newScore = parseInt( $event.target.innerHTML.replace(/[^0-9]/g, '') );
         newScore = (newScore <  0) ?  0 : newScore;
@@ -30,8 +46,14 @@
             newScore
           })
         }
+      }, */
 
+      //Render number pad component to edit this score
+      enterScoreMode($event, index) {
+        this.$emit('editingScore', index);
+        this.editingTurnIndex = index;
       }
+
     }
   }
 </script>
@@ -64,4 +86,11 @@
       background: #19596c;
       color: #77c97c;
   }
+
+  .history .turn.editing {
+    background: #77c97b;
+    background: radial-gradient(#b4e857, #4f9853); //todo color theme
+    color: #143e4a;
+    font-weight: bold;
+}
 </style>

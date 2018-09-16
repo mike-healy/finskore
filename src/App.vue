@@ -152,29 +152,30 @@ export default {
         },
 
         updateHistory({ turnIndex, newScore }) {
-          this.selectedPlayer.turns[turnIndex] = newScore
 
-          const index = this.selectedPlayerIndex
-          const { turns } = this.players[index]
+            this.selectedPlayer.turns[turnIndex] = newScore
 
-          turns[turnIndex] = newScore
+            const index = this.selectedPlayerIndex
+            const { turns } = this.players[index]
 
-          /**
-           * Figure out why $watch doesn't pay attention to this change.
-           */
-          Object.assign(this.players[index], { turns })
+            turns[turnIndex] = newScore
 
-          /**
-           * HACK: Just manually update the player score.
-           * (acts to clear computed, to trigger recalculation)
-           */
-          let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
-              let subtotal = sum + turn;
-              return subtotal > this.playToScore ? this.resetTo : subtotal;
-          }, 0);
+            /**
+            * Figure out why $watch doesn't pay attention to this change.
+            */
+            Object.assign(this.players[index], { turns })
 
-          this.selectedPlayer.score = newTotal;
-          this.players[index].score = newTotal;
+            /**
+            * HACK: Just manually update the player score.
+            * (acts to clear computed, to trigger recalculation)
+            */
+            let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
+                let subtotal = sum + turn;
+                return subtotal > this.playToScore ? this.resetTo : subtotal;
+            }, 0);
+
+            this.selectedPlayer.score = newTotal;
+            this.players[index].score = newTotal;
         },
 
         saveScore({ score, playerId }) {
