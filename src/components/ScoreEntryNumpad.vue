@@ -48,13 +48,18 @@
 
 <style lang="scss">
   div.score {
-    transition: padding 1s;
+    transition: padding 0.5s;
   }
 
   div.score.editing {
     border: 1px dashed #94ce56;
     padding: 2rem 0;
     background: rgba(38, 150, 132, 0.15);
+  }
+
+  .theme-hot div.score.editing {
+    border-color: #e06b1e;
+    background: rgba(150, 113, 38, 0.15);
   }
 
   .score button {

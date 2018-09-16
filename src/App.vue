@@ -24,6 +24,10 @@
       :closeNewGameInterface="closeNewGameInterface"
     />
 
+    <transition name="slide-fade">
+        <div v-if="flashMessage" v-focus tabindex="-1" class="flashMessage">{{ flashMessage }}</div>
+    </transition>
+
     <SelectedPlayerView
       v-if="showScoreModal"
       @updateHistory="updateHistory"
@@ -69,12 +73,19 @@
 </template>
 
 <script>
-  import Vue from 'vue';
-  import Leaderboard from './components/Leaderboard.vue';
-  import SelectedPlayerView from './components/SelectedPlayerView';
-  import SetupGame from './components/SetupGame';
-  import Arrangement from './components/Arrangement.vue';
-  import Finskore from './Finskore';
+//A11Y
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus();
+  },
+});
+
+import Vue from 'vue';
+import Leaderboard from './components/Leaderboard.vue';
+import SelectedPlayerView from './components/SelectedPlayerView';
+import SetupGame from './components/SetupGame';
+import Arrangement from './components/Arrangement.vue';
+import Finskore from './Finskore';
 
 export default {
     components: {
@@ -102,7 +113,9 @@ export default {
             showNewGameInterface: false,
             showScoreModal: false,
             newPlayer: '',
-            winner: ''
+            winner: '',
+
+            flashMessage: ''
         }
     },
 
@@ -144,6 +157,10 @@ export default {
           this.showScoreModal = false;
         },
 
+        clearFlashMessage() {
+            this.flashMessage = '';
+        },
+
         //@var index player index
         handlePlayerSelectedFromLeaderboard(player) {
             this.selectedPlayer = player;
@@ -176,6 +193,14 @@ export default {
 
             this.selectedPlayer.score = newTotal;
             this.players[index].score = newTotal;
+
+            //strikes don't update :(
+            this.updatePositions();
+
+            //Close modal, flash message
+            this.showScoreModal = false;
+            this.flashMessage = 'Score Updated';
+            setTimeout(this.clearFlashMessage, 2000);
         },
 
         saveScore({ score, playerId }) {
@@ -404,5 +429,22 @@ img.arrangement {
     border-radius: 4px;
     max-width: 60px;
     box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+div.flashMessage {
+    text-align: center;
+    background: #1d1d1d;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.slide-fade-enter-active {
+  transition: all .8s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s; //all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
 }
 </style>

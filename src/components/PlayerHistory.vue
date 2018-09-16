@@ -33,21 +33,7 @@
     },
 
     methods: {
-      /* updateScore($event, index) {
-        
-        let newScore = parseInt( $event.target.innerHTML.replace(/[^0-9]/g, '') );
-        newScore = (newScore <  0) ?  0 : newScore;
-        newScore = (newScore > 12) ? 12 : newScore;
-        $event.target.innerHTML = newScore;
-
-        if ( !isNaN(newScore) ) {
-          this.$emit('updateHistory', {
-            turnIndex: index,
-            newScore
-          })
-        }
-      }, */
-
+     
       //Render number pad component to edit this score
       enterScoreMode($event, index) {
         this.$emit('editingScore', index);
@@ -92,5 +78,10 @@
     background: radial-gradient(#b4e857, #4f9853); //todo color theme
     color: #143e4a;
     font-weight: bold;
-}
+  }
+
+  .theme-hot .history .turn.turn.editing {
+    background: #e06b1e;
+    background: radial-gradient(#FFC107, #e06b1e);
+  }
 </style>

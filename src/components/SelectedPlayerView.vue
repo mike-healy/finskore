@@ -6,7 +6,10 @@
     <div class="score-container">
 
       <!-- NEW score (i.e. not editing any index) -->
-      <ScoreEntryNumpad v-if="editTurnIndex === -1" :onScoreSelection="scoreSelected" />
+      <ScoreEntryNumpad
+        v-if="editTurnIndex === -1"
+        :onScoreSelection="scoreSelected"
+      />
 
       <!-- EDIT existing score -->
       <ScoreEntryNumpad
@@ -94,12 +97,17 @@
         this.editTurnIndex = index;
       },
 
+      //Handle NEW score
       scoreSelected(score) {
         this.saveScore({ score, playerId: this.player.id })
       },
 
+      //Handle Updated score
       scoreUpdated(score) {
-        this.$emit('updateHistory', {turnIndex: this.editTurnIndex, newScore: score});
+        this.$emit('updateHistory', {
+          turnIndex: this.editTurnIndex,
+          newScore: score
+        });
       }
 
     }
