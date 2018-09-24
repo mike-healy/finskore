@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <header>
-      <h1>Finskore</h1>
-      <p>Online scoring app for Finska, Klop &amp; Molkky</p>
-    </header>
 
     <p v-show="!gameInProgress">
       <button @click="openNewGameInterface()">Add Players</button>
@@ -374,6 +370,10 @@ export default {
 
         players: {
             handler(updatedPlayers) {
+                
+                //todo: can we check for 3 strikes in a row here to strike out player?
+                // (so that it happens on history change too)
+                
                 updatedPlayers.forEach((player, index) => {
 
                   //Back to 

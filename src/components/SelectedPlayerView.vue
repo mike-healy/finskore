@@ -21,6 +21,7 @@
 
       <PlayerHistory
         :player="player"
+        @addScoreMode="editTurnIndex = -1"
         @editingScore="editScoreMode"
         @updateHistory="turn => $emit('updateHistory', turn)"
       />

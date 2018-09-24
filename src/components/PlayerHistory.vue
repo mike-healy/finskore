@@ -1,6 +1,7 @@
 <template>
   <div class='history' v-if="player.turns.length > 0">
     <div class='line'></div>
+    <div class="turn" @click="addScoreMode()" :class="{editing: editingTurnIndex === null}"></div>
     <div
       v-for="(turn, index) in player.turns"
       :key="index"
@@ -8,7 +9,7 @@
       :class='{editing: editingTurnIndex === index}'
       @click="enterScoreMode($event, index)"
     >
-      {{ turn ? turn : ':(' }}
+      {{ turn ? turn : '&times;' }}
     </div>
   </div>
 </template>
@@ -33,7 +34,13 @@
     },
 
     methods: {
-     
+
+      //Return to Adding new score after selecting edit mode
+      addScoreMode() {
+        this.editingTurnIndex = null;
+        this.$emit('addScoreMode');
+      },
+
       //Render number pad component to edit this score
       enterScoreMode($event, index) {
         this.$emit('editingScore', index);

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
-        <title>Finskore</title>
+        <title>Finskore - Finksa Scoring App</title>
         <link href="style.css" type="text/css" rel="stylesheet">
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,10 +18,15 @@
 
         <meta property="og:title" content="Finskore - browser based scoring app for Finska &amp; Klop">
         <meta property="og:image" content="img/cover.png">
-        <meta name="description" content="Finskore - online scoring app for Finska, Klop &amp; Molkky. Keep score in your browser">
+        <meta name="description" content="Finskore - a browser based scoring app for Finska, Klop &amp; Molkky. Keep score on your phone">
 
     </head>
     <body>
+
+        <header class="container">
+            <h1>Finskore</h1>
+            <p>Free browser-based scoring app for Finska, Klop &amp; Molkky</p>
+        </header>
 
         <div id="app" v-cloak v-bind:class="'theme-' + theme" />
 
