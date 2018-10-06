@@ -293,6 +293,7 @@ export default {
         nextTurn() {
 
             // todo FIX BUG -- if all players struck out goes to max call stack size (i.e. infinite loop)
+            // matters slightly more because you can now retrospectively change a historical turn to a strike. Still edge case
 
             if(this.whoseTurn >= this.players.length-1) {
                 this.whoseTurn = 0;

@@ -31,16 +31,36 @@
     name: 'Leaderboard',
     methods: {
       showStrikes(player) {
+
+        let reversedTurns = player.turns.slice(0); //get a copy, not reference, to reverse without infinite loop
+            reversedTurns.reverse();
+
+        let consecStrikes = reversedTurns.reduce(
+            //(strikeCount, score) => (score === 0) ? strikeCount+1 : 0
+            function(strikeCount, score) {
+                if(strikeCount >= 3) {
+                    return strikeCount; //if it EVER reached 3 strikes, still out
+                }
+                if(score === 0) {
+                    return strikeCount+1;
+                }
+                return 0;
+            }
+        , 0);
+        
+        player.strikes = consecStrikes;
+
         let str = '';
-        if (player.strikes === 0) {
+        if (consecStrikes === 0) {
             return str;
         }
 
-        for(let i=0; i<player.strikes; i++) {
+        for(let i=0; i<consecStrikes; i++) {
             str += 'x ';
         }
         return str;
       },
+
       hasStruckOut,
       // English-ify the numeric position
       showPosition(p) {
