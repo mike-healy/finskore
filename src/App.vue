@@ -265,7 +265,7 @@ export default {
                 if( (!a.struckout && !b.struckout) ||
                     (a.struckout && b.struckout) ) {
 
-                    return a.score < b.score;
+                    return (a.score < b.score) ? 1 : -1;
                 }
 
                 if(a.struckout) {
