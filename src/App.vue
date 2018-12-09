@@ -277,16 +277,25 @@ export default {
                 throw new Error('Your sorting logic is terrible. Just really bad mate.');
             });
 
-            scores.forEach( (obj, index) => {
+            let prevScore = 0;
+            let prevRankingPosition = 0;
 
-                //Struck out ya loser
+            scores.forEach( (obj, index) => {
+                
                 if( Finskore.hasStruckOut(this.players[obj.index]) ) {
                     this.players[obj.index].position = this.players.length;
                 } else {
 
-                    this.players[obj.index].position = index+1;
+                    //Tied with previous score, share their ranking position (there can be 3+ way ties)
+                    if(obj.score === prevScore) {
+                        this.players[obj.index].position = prevRankingPosition;
+                    } else {
+                        this.players[obj.index].position = index+1;
+                        prevRankingPosition = index+1;
+                    }
                 }
-
+                
+                prevScore = obj.score;
             });
         },
 

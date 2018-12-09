@@ -1,3 +1,4 @@
+<!-- This could just be a method -->
 <template>
   <span>{{ playerNamePossesive }}</span>
 </template>

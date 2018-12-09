@@ -39,6 +39,8 @@
       <button @click.prevent="cancel" class="cancel">Close</button>
     </p>
 
+    <!-- Todo: keep modal open and show 'done' when turn changed. 
+    Users would set their turn to also score for them -->
     <p>
       <button
         @click="changeWhoseTurnItIs(player.id)"
