@@ -90,6 +90,10 @@
 </script>
 
 <style lang="scss">
+  .christmas section.leaderboard {
+      background: rgba(6, 29, 15, 0.78);
+  }
+  
   section.leaderboard > div.player {
       display: flex;
   }

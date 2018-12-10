@@ -18,6 +18,16 @@ body {
     min-height: 100vh; /* thanks @jaaprood */
 }
 
+/* Christmas Backgrounds */
+body.christmas {
+    background: url(img/xmas_green.jpg) no-repeat;
+    background-size: cover;
+}
+body.theme-hot.christmas {
+    background: url(img/xmas_red.jpg) no-repeat;
+    background-size: cover;
+}
+
 #app, 
 .container {
     margin: 0 auto;
@@ -135,9 +145,10 @@ footer input[type=number] {
 }
 
 .themeSwitcher {
-    position: absolute;
+    float: right;
+    /*position: absolute;
     bottom: 0;
-    right: 0;
+    right: 0; */
 }
     .themeSwitcher > div {
         display: inline-block;
@@ -162,6 +173,11 @@ body.theme-hot {
 .theme-hot footer a:hover {
     background: #d24d15;
     color: #fff;
+}
+
+.christmas.theme-hot footer a,
+.christmas.theme-hot footer a:visited {
+    color: #f79657;
 }
 
 .theme-hot button {
@@ -193,17 +209,31 @@ body.theme-hot {
 .theme-hot section.leaderboard {
     color: #0a2c3c;
 }
+.christmas.theme-hot section.leaderboard {
+    color: #fff;
+    background: #4e1009c4;
+}
 
 .theme-hot section.leaderboard > div {
     border-bottom: 1px solid #efad26;
+}
+.christmas.theme-hot section.leaderboard > div {
+    border-color: #a24f22;
 }
 
 .theme-hot .player.winning .pos {
     color: #f7d182;
 }
+.christmas.theme-hot .player.winning .pos {
+    color: #eae8d6;
+    background: #8a271a;
+}
 
 .theme-hot .player.myturn {
     background: #f7a448;
+}
+.christmas.theme-hot .player.myturn {
+    background: #291610;
 }
 
 .theme-hot .struckout {

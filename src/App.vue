@@ -53,17 +53,20 @@
       <button @click="resetScores">Reset Scores</button>
     </p>
 
-
-    <div class='themeSwitcher'>
-      <div @click="setTheme('default')" class='default'></div>
-      <div @click="setTheme('hot')" class='hot'></div>
-    </div>
-
     <footer>
         <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
         <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
 
-        <p><a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a></p>
+        <p>
+            <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
+        </p>
+        
+        <PhotoCredit :christmas="christmas" :theme="theme" />
+
+        <div class='themeSwitcher'>
+            <div @click="setTheme('default')" class='default'></div>
+            <div @click="setTheme('hot')" class='hot'></div>
+        </div>
     </footer>
   </div> <!-- /#app -->
 </template>
@@ -81,6 +84,7 @@ import Leaderboard from './components/Leaderboard.vue';
 import SelectedPlayerView from './components/SelectedPlayerView';
 import SetupGame from './components/SetupGame';
 import Arrangement from './components/Arrangement.vue';
+import PhotoCredit from './components/PhotoCredit.vue';
 import Finskore from './Finskore';
 
 export default {
@@ -88,13 +92,15 @@ export default {
       Leaderboard,
       SelectedPlayerView,
       Arrangement,
-      SetupGame
+      SetupGame,
+      PhotoCredit
     },
     name: 'app',
 
     data () {
         return {
             theme: 'default',
+            christmas: false,
             showArrangementGuide: false,
 
             //Config
@@ -349,10 +355,31 @@ export default {
         },
 
         setTheme(theme) {
-            if( ['default', 'hot'].indexOf(theme) !== -1 ) {
-                this.theme = theme;
-                document.body.className = 'theme-' + theme;
-                localStorage.setItem('theme', theme);
+            if( ['default', 'hot'].indexOf(theme) === -1 ) {
+                return;
+            }
+         
+            this.theme = theme;
+            
+            //Remove old theme- classes first
+            document.body.classList.forEach( function(c) {
+                if( c.substr(0, 6) === 'theme-' ) {
+                    document.body.classList.remove(c);
+                }
+            });
+
+            document.body.classList.add('theme-' + theme);
+            localStorage.setItem('theme', theme);
+        },
+
+        christmasTheme() {
+            let d = new Date();
+            if(d.getMonth() !== 11) {
+                return;
+            }
+            if(d.getDate() >= 10 && d.getDate() <= 30) {
+                document.body.classList.add('christmas');
+                this.christmas = true;
             }
         }
     },
@@ -409,6 +436,14 @@ export default {
             this.playToScore = (!isNaN(state.playToScore) && state.playToScore > 0) ? state.playToScore : 50;
             this.whoseTurn = state.whoseTurn;
         }
+
+        this.christmasTheme();
+
+        //Hacky -- update state with theme by sniffing DOM
+        //Theme change event already handled
+        if(document.body.classList.contains('theme-hot')) {
+            this.setTheme('hot');
+        }
     },
 
     updated() {
@@ -425,9 +460,10 @@ export default {
 
 if( localStorage.getItem('theme') ) {
     let themeClass = 'theme-' + localStorage.getItem('theme');
-    document.body.className = themeClass;
+    document.body.classList.add(themeClass); 
     document.getElementById('app').className = document.getElementById('app').className.replace('theme-default'. themeClass);
 }
+
 </script>
 
 <style lang="scss">
