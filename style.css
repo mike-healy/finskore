@@ -20,11 +20,11 @@ body {
 
 /* Christmas Backgrounds */
 body.christmas {
-    background: url(img/xmas_green.jpg) no-repeat;
+    background: url(img/xmas_green.jpg) no-repeat #0f2925;
     background-size: cover;
 }
 body.theme-hot.christmas {
-    background: url(img/xmas_red.jpg) no-repeat;
+    background: url(img/xmas_red.jpg) no-repeat #711c11;
     background-size: cover;
 }
 
