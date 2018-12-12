@@ -3,6 +3,7 @@
 
     <p v-show="!gameInProgress">
       <button @click="openNewGameInterface()">Add Players</button>
+      <button v-show="players.length >= 2" @click="shuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
     </p>
 
     <!-- DECLARE WINNER -->
@@ -145,6 +146,22 @@ export default {
 
         addPlayer({ name }) {
           this.players = Finskore.addPlayer({name, players: this.players});
+        },
+
+        shuffleOrder() {
+            
+            if(this.players.length < 2) {
+                return;
+            }
+
+            const reducer = (accumulator, current) => accumulator + current.id;
+            const prevOrder = this.players.reduce(reducer, '');
+
+            while(this.players.reduce(reducer, '') === prevOrder) {
+                this.players.sort( function(a,b) {
+                        return (Math.random() < 0.5) ? -1 : 1;
+                });
+            }
         },
 
         deletePlayer(playerId) {
