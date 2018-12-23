@@ -1,9 +1,9 @@
 <template>
   <div id="app">
 
-    <p v-show="!gameInProgress">
+    <p v-show="!gameInProgress" class="center">
       <button @click="openNewGameInterface()">Add Players</button>
-      <button v-show="players.length >= 2" @click="shuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
+      <button v-show="players.length >= 2" @click="runShuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
     </p>
 
     <!-- DECLARE WINNER -->
@@ -55,7 +55,7 @@
     </p>
 
     <footer>
-        <p><small>Play to <input type="number" v-model.number="playToScore" max="1000"></small></p>
+        <p>Play to <input type="number" v-model.number="playToScore" max="1000"></p>
         <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
 
         <p>
@@ -65,6 +65,7 @@
         <PhotoCredit :christmas="christmas" :theme="theme" />
 
         <div class='themeSwitcher'>
+            <div @click="setTheme('white')" class='white'></div>
             <div @click="setTheme('default')" class='default'></div>
             <div @click="setTheme('hot')" class='hot'></div>
         </div>
@@ -100,6 +101,9 @@ export default {
 
     data () {
         return {
+            shufflerInterval: null,
+            shuffleCount: 0,
+
             theme: 'default',
             christmas: false,
             showArrangementGuide: false,
@@ -148,6 +152,19 @@ export default {
           this.players = Finskore.addPlayer({name, players: this.players});
         },
 
+        runShuffleOrder(action) {
+            action = action || 'start';
+
+            if(action === 'start') {
+                this.shufflerInterval = setInterval(this.shuffleOrder, 150);
+                return;
+            }
+
+            //Stop shuffling
+            this.shuffleCount = 0;
+            clearInterval(this.shufflerInterval);
+        },
+        
         shuffleOrder() {
             
             if(this.players.length < 2) {
@@ -158,9 +175,14 @@ export default {
             const prevOrder = this.players.reduce(reducer, '');
 
             while(this.players.reduce(reducer, '') === prevOrder) {
+                this.shuffleCount++;
                 this.players.sort( function(a,b) {
                         return (Math.random() < 0.5) ? -1 : 1;
                 });
+            }
+
+            if(this.shuffleCount >= 6) {
+                this.runShuffleOrder('stop');
             }
         },
 
@@ -372,7 +394,7 @@ export default {
         },
 
         setTheme(theme) {
-            if( ['default', 'hot'].indexOf(theme) === -1 ) {
+            if( ['default', 'hot', 'white'].indexOf(theme) === -1 ) {
                 return;
             }
          
@@ -458,9 +480,19 @@ export default {
 
         //Hacky -- update state with theme by sniffing DOM
         //Theme change event already handled
-        if(document.body.classList.contains('theme-hot')) {
+        let app = this;
+
+        ['theme-white', 'theme-default', 'theme-default'].forEach(function(t) {
+            let theme = t.replace('theme-', '');
+
+            if(document.body.classList.contains(t)) {
+                app.setTheme(theme);
+            }
+        });
+
+        /* if(document.body.classList.contains('theme-hot')) {
             this.setTheme('hot');
-        }
+        } */
     },
 
     updated() {
@@ -499,6 +531,11 @@ div.flashMessage {
     background: #1d1d1d;
     padding: 1rem;
     margin-bottom: 1rem;
+}
+
+.theme-white div.flashMessage {
+    background: #e86614;
+    color: #fff;
 }
 
 .slide-fade-enter-active {

@@ -61,11 +61,28 @@ section.winner {
     background: #1d1d1d;
 }
 
+.theme-white section.winner {
+    background: #2799b7;
+    color: #cff9ec;
+}
+
 form {
     background: rgba(12, 58, 80, 0.96);
     padding: 2rem;
     padding-bottom: 1px;
     z-index: 5;
+}
+
+form button {
+    width: 8rem;
+}
+
+.theme-white form {
+    background: #92dec7;
+}
+
+.theme-white form button {
+    box-shadow: none !important;
 }
 
 form h2 {
@@ -78,6 +95,17 @@ label {
     margin-bottom: 0.3rem;
 }
 
+div.addPlayerContainer {
+    display: flex;
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
+.addPlayerContainer div:first-child {flex-grow: 1;}
+
+.addPlayerContainer input[type=text] {
+    width: 100%;
+}
 
 button {
     background: #1f5f58;
@@ -144,17 +172,24 @@ footer a:hover {
     text-decoration: none;
 }
 
+.theme-white footer a,
+.theme-white footer a:visited {
+    color: #3c7940;
+}
+
 footer input[type=number] {
     padding: 0.3rem;
     font-size: inherit;
-    background: #469767;
-    color: #98f09b;
+    background: #2f6946;
+    color: #cffbd0;
     width: 3rem;
     margin-left: 0.5rem;
 }
 
 .themeSwitcher {
     float: right;
+    margin-bottom: 1rem;
+
     /*position: absolute;
     bottom: 0;
     right: 0; */
@@ -166,6 +201,7 @@ footer input[type=number] {
         cursor: pointer;
     }
 
+    .themeSwitcher .white {background: #eee; border: 1px solid #afafaf; margin-right: 8px;}
     .themeSwitcher .default {background: #23676b; margin-right: 8px;}
     .themeSwitcher .hot {background: #eabd2e;}
 
@@ -173,6 +209,12 @@ footer input[type=number] {
 /* THEME - HOT */
 body.theme-hot {
     background: linear-gradient(110deg,#efb024,#dc7626);
+}
+
+/* THEME - WHITE for being outside y'know? */
+body.theme-white {
+    background: linear-gradient(110deg, #fff, #ddd);
+    color: #333;
 }
 
 .theme-hot footer a,
@@ -215,6 +257,27 @@ body.theme-hot {
     background: rgb(105, 59, 83);
 }
 
+.theme-white button {
+    background: #3d5894;
+    color: #eef4f5;
+    box-shadow: 3px 3px 0px 0px rgb(127, 212, 128);
+    border: none;
+}
+
+.theme-white button.cancel {
+    background: #38798a;
+    box-shadow: 3px 3px 0px 0px rgba(0,0,0,0.15);
+}
+
+.theme-white button.warning {
+    background: #e86613;
+    box-shadow: 3px 3px 0px 0px rgba(134, 61, 49, 0.96);
+    border: none;
+    color: #fff;
+}
+
+
+/* Leaderboard */
 .theme-hot section.leaderboard {
     color: #0a2c3c;
 }
@@ -230,6 +293,12 @@ body.theme-hot {
     border-color: #a24f22;
 }
 
+.theme-white section.leaderboard {
+    background: #fff !important;
+}
+
+
+
 .theme-hot .player.winning .pos {
     color: #f7d182;
 }
@@ -237,12 +306,21 @@ body.theme-hot {
     color: #eae8d6;
     background: #8a271a;
 }
+.theme-white .player.winning .pos {
+    background: #38798a;
+    color: #fff;
+    font-weight: bold;
+}
+
 
 .theme-hot .player.myturn {
     background: #f7a448;
 }
 .christmas.theme-hot .player.myturn {
     background: #291610;
+}
+.theme-white .player.myturn {
+    background: #92dec7;
 }
 
 .theme-hot .struckout {
@@ -255,6 +333,19 @@ body.theme-hot {
 .theme-hot .history .turn {
     background: #311d28;
     color: #de7a26;
+}
+
+.theme-white .history .turn {
+    background: #fff;
+    color: #111;
+}
+.theme-white .history .line {
+    background: #fff;
+}
+.theme-white .history .turn.editing {
+    background: #353535;
+    background: radial-gradient(#7d7d7d, #353535);
+    color: #c9f5e7;
 }
 
 .theme-hot footer input[type=number] {

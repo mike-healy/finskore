@@ -62,6 +62,10 @@
     background: rgba(150, 113, 38, 0.15);
   }
 
+  .theme-white div.score.editing {
+    background: #fff;
+  }
+
   .score button {
       width: 35%;
       margin: 0 0.5rem 1.5rem 0.5rem;

@@ -1,6 +1,7 @@
 <template>
-    <p v-if="christmas" class="bg-credit">
-    Background by <a :href="photographerLink" target="_blank" noopener="true">{{ photographer }}</a> on Unsplash</p>
+    <p v-if="christmas && typeof credits[theme] !== 'undefined'" class="bg-credit">
+    Background by <a :href="photographerLink" target="_blank" noopener="true">{{ photographer }}</a> on Unsplash
+    </p>
 </template>
 
 <script>

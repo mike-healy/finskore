@@ -1,14 +1,16 @@
 <template>
   <form @submit.prevent="handleNewPlayerFormSubmit()" class="createGame">
-    <h2>Add Players now</h2>
-    <p>
-      <label for="newPlayer">New Player</label>
-      <input ref="newPlayer" type="text" name="newPlayer" id="newPlayer" maxlength="20" required />
-      <button type="submit">Add to Game</button>
-    </p>
+    <h2>Add Players</h2>
+
+    <div class='addPlayerContainer'>
+      <div>
+        <input ref="newPlayer" type="text" name="newPlayer" id="newPlayer" maxlength="20" required="required" placeholder="Player Name">
+      </div>
+      <button type="submit" style="margin: 0;">+ Add to Game</button>
+    </div>
 
     <p class="center">
-      <button @click.prevent="closeNewGameInterface()" class="cancel">close</button>
+      <button @click.prevent="closeNewGameInterface()" class="cancel" style="margin-right: 8px;">close</button>
       <button @click.prevent="startGame()">Start Game</button>
     </p>
   </form>
