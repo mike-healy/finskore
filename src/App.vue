@@ -6,6 +6,10 @@
       <button v-show="players.length >= 2" @click="runShuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
     </p>
 
+    <!-- FOLLOW A GAME -->
+    <FollowGame v-if="!showNewGameInterface" :existingGame="gameInProgress">
+    </FollowGame>
+
     <!-- DECLARE WINNER -->
     <transition name="slide-fade">
         <section v-show="winner !== ''" class="winner">
@@ -97,13 +101,18 @@ import Arrangement from './components/Arrangement.vue';
 import PhotoCredit from './components/PhotoCredit.vue';
 import Finskore from './Finskore';
 
+//Host & Follow components
+import FollowGame from './components/FollowGame';
+
+
 export default {
     components: {
       Leaderboard,
       SelectedPlayerView,
       Arrangement,
       SetupGame,
-      PhotoCredit
+      PhotoCredit,
+      FollowGame
     },
     name: 'app',
 
