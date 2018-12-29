@@ -10,8 +10,9 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "url-parse": ">=1.4.3",
     "uuid": "^3.3.2",
-    "vue": "^2.5.17"
+    "vue": "^2.5.21"
   },
   "browserslist": [
     "> 1%",
@@ -30,10 +31,10 @@
     "file-loader": "^1.1.4",
     "node-sass": "^4.9.3",
     "sass-loader": "^6.0.6",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.5.17",
+    "vue-loader": "^13.7.3",
+    "vue-template-compiler": "^2.5.21",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack-dev-server": "^2.11.3"
   },
   "eslintConfig": {
     "extends": [
