@@ -50,7 +50,7 @@ body.theme-hot.christmas {
 
 .center {text-align: center;}
 .right {text-align: right;}
-.top-space {margin-top: 4rem;}
+.top-space {margin-top: 3rem;}
 
 header {margin-bottom: 2rem;}
 header h1 {margin: 0;}
@@ -163,6 +163,12 @@ footer {
     margin-top: 4rem;
 }
 
+footer .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+
 footer a {color: #77c97c;}
 footer a:visited {color: #6ebd73;}
 
@@ -180,10 +186,14 @@ footer a:hover {
 footer input[type=number] {
     padding: 0.3rem;
     font-size: inherit;
-    background: #2f6946;
+    background: #08293e;
     color: #cffbd0;
     width: 3rem;
     margin-left: 0.5rem;
+}
+
+.christmas footer input[type=number] {
+    background: #2f6946;
 }
 
 .themeSwitcher {

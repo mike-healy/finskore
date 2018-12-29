@@ -1,5 +1,5 @@
 <template>
-    <p v-if="christmas && typeof credits[theme] !== 'undefined'" class="bg-credit">
+    <p v-if="christmas && typeof credits[theme] !== 'undefined'" class="center bg-credit">
     Background by <a :href="photographerLink" target="_blank" noopener="true">{{ photographer }}</a> on Unsplash
     </p>
 </template>

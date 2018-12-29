@@ -51,26 +51,32 @@
         v-show="showArrangementGuide"
     />
 
-    <p v-show="players.length > 0" class="right top-space">
+    <p v-show="players.length > 0" class="center top-space">
       <button @click="resetGame" class="warning">Reset Everything</button>
       <button @click="resetScores">Reset Scores</button>
     </p>
 
     <footer>
-        <p>Play to <input type="number" v-model.number="playToScore" max="1000"></p>
-        <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
 
-        <p>
-            <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
-        </p>
+        <div class="row">
+            <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
+            <p>Play to <input type="number" v-model.number="playToScore" max="1000"></p>
+        </div>
+
+        <div class='row'>
+            <p>
+                <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
+            </p>
         
+            <div class='themeSwitcher'>
+                <div @click="setTheme('white')" class='white'></div>
+                <div @click="setTheme('default')" class='default'></div>
+                <div @click="setTheme('hot')" class='hot'></div>
+            </div>
+        </div>
+
         <PhotoCredit :christmas="christmas" :theme="theme" />
 
-        <div class='themeSwitcher'>
-            <div @click="setTheme('white')" class='white'></div>
-            <div @click="setTheme('default')" class='default'></div>
-            <div @click="setTheme('hot')" class='hot'></div>
-        </div>
     </footer>
   </div> <!-- /#app -->
 </template>
@@ -415,6 +421,7 @@ export default {
         },
 
         christmasTheme() {
+
             let d = new Date();
             if(d.getMonth() !== 11) {
                 return;
@@ -485,17 +492,13 @@ export default {
         //Theme change event already handled
         let app = this;
 
-        ['theme-white', 'theme-default', 'theme-default'].forEach(function(t) {
+        ['theme-white', 'theme-default', 'theme-hot'].forEach(function(t) {
             let theme = t.replace('theme-', '');
 
             if(document.body.classList.contains(t)) {
                 app.setTheme(theme);
             }
         });
-
-        /* if(document.body.classList.contains('theme-hot')) {
-            this.setTheme('hot');
-        } */
     },
 
     updated() {
@@ -506,7 +509,14 @@ export default {
             whoseTurn: this.whoseTurn
         };
 
-        localStorage.setItem('finskoreState', JSON.stringify(state));
+        //Detect consequential update to push to other clients
+        //otherwise ::updated() runs on every interaction such as opening a modal
+        const newState = JSON.stringify(state);
+        if(localStorage.getItem('finskoreState') !== newState) {
+            //console.log('%cActual State change', 'color: rgb(60,180,177);');
+        }
+
+        localStorage.setItem('finskoreState', newState);
     }
 }
 
