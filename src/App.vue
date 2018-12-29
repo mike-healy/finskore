@@ -7,12 +7,14 @@
     </p>
 
     <!-- DECLARE WINNER -->
-    <section v-show="winner !== ''" class="winner">
-      <h2>{{ winner }} Won!</h2>
-      <p>
-        <button class="cancel" @click="winner=''">close</button>
-      </p>
-    </section>
+    <transition name="slide-fade">
+        <section v-show="winner !== ''" class="winner">
+        <h2>{{ winner }} Won!</h2>
+        <p>
+            <button class="cancel" @click="winner=''">close</button>
+        </p>
+        </section>
+    </transition>
 
     <SetupGame
       v-if="showNewGameInterface"
@@ -385,6 +387,7 @@ export default {
             this.whoseTurn = 0;
             this.scores = [];
             this.gameInProgress = false;
+            this.winner = '';
         },
 
         //Stub. todo: integrate with strike count, position tracking

@@ -6,7 +6,7 @@
       <div>
         <input ref="newPlayer" type="text" name="newPlayer" id="newPlayer" maxlength="20" required="required" placeholder="Player Name">
       </div>
-      <button type="submit" style="margin: 0;">+ Add to Game</button>
+      <button type="submit" style="margin: 0;">+ Add</button>
     </div>
 
     <p class="center">
