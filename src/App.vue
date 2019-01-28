@@ -227,10 +227,17 @@ export default {
 
             /**
             * HACK: Just manually update the player score.
-            * (acts to clear computed, to trigger recalculation)
+            * (acts to clear computed, to trigger recalculation) 
             */
             let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
                 let subtotal = sum + turn;
+
+                //Adjust history down to hit reset
+                /* if(subtotal > this.playToScore) {
+                    let diff = subtotal-this.playToScore;
+                    
+                } */
+
                 return subtotal > this.playToScore ? this.resetTo : subtotal;
             }, 0);
 
@@ -269,8 +276,8 @@ export default {
             if(selectedPlayer.score > this.playToScore) {
 
                 //push negative score to history, to bring player back to the 'resetTo' (25)
-                    //OFF selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
-                    // selectedPlayer.turns.unshift(0);
+                //solved the stalled calculation after busting bug
+                selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
                 selectedPlayer.theyBlewIt = true;
             } else {
                 selectedPlayer.theyBlewIt = false;
@@ -283,6 +290,9 @@ export default {
             if(score > 0) {
                 selectedPlayer.strikes = 0;
             }
+
+            //Try to clear computed. Nopetown.
+            //this.players[index].name += '_'; //Diag
 
             //Declare winner
             if(selectedPlayer.score === this.playToScore) {
@@ -460,6 +470,7 @@ export default {
                       let subtotal = sum + turn;
                       return subtotal > this.playToScore ? this.resetTo : subtotal;
                   }), 0);
+
                 })
             },
             deep: true
