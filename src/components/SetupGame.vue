@@ -11,7 +11,7 @@
 
     <p class="center">
       <button @click.prevent="closeNewGameInterface()" class="cancel" style="margin-right: 8px;">close</button>
-      <button @click.prevent="startGame()">Start Game</button>
+      <button v-show="$parent.players.length > 0" @click.prevent="startGame()">Start Game</button>
     </p>
   </form>
 </template>
