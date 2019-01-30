@@ -3,7 +3,7 @@
     <div class='line'></div>
     <div class="turn" @click="addScoreMode()" :class="{editing: editingTurnIndex === null}"></div>
     <div
-      v-for="(turn, index) in player.turns"
+      v-for="(turn, index) in turnHistory"
       :key="index"
       class='turn'
       :class='{editing: editingTurnIndex === index}'
@@ -29,8 +29,14 @@
 
     data() {
       return {
-        editingTurnIndex: null
+        editingTurnIndex: null,
+        turnHistory: []
       }
+    },
+
+    created() {
+      this.turnHistory = this.player.turns.slice(); //copy
+      this.turnHistory.reverse();
     },
 
     methods: {
@@ -43,6 +49,12 @@
 
       //Render number pad component to edit this score
       enterScoreMode($event, index) {
+
+        //Cannot edit negative adjustment back to resetTo score
+        if(this.player.turns[index] < 0) {
+          return;
+        }
+
         this.$emit('editingScore', index);
         this.editingTurnIndex = index;
       }

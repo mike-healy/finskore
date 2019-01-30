@@ -148,6 +148,7 @@ export default {
         startGame() {
             this.showNewGameInterface = false;
             this.gameInProgress = true;
+            this.turnIndex = 0;
         },
 
         addPlayer({ name }) {
@@ -231,13 +232,6 @@ export default {
             */
             let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
                 let subtotal = sum + turn;
-
-                //Adjust history down to hit reset
-                /* if(subtotal > this.playToScore) {
-                    let diff = subtotal-this.playToScore;
-                    
-                } */
-
                 return subtotal > this.playToScore ? this.resetTo : subtotal;
             }, 0);
 
@@ -267,17 +261,15 @@ export default {
             //Swing and a miss
             if(score === 0) {
                 selectedPlayer.strikes++;
+            } else {
+                selectedPlayer.strikes = 0;
             }
 
-            selectedPlayer.turns.unshift(score);
+            selectedPlayer.turns.push(score);
             selectedPlayer.score += score;
 
-            //OVER QUOTA -- Whoops
+            //Too many points. Congratulations, you played yourself
             if(selectedPlayer.score > this.playToScore) {
-
-                //push negative score to history, to bring player back to the 'resetTo' (25)
-                //solved the stalled calculation after busting bug
-                selectedPlayer.turns.unshift( this.resetTo-selectedPlayer.score );
                 selectedPlayer.theyBlewIt = true;
             } else {
                 selectedPlayer.theyBlewIt = false;
@@ -285,14 +277,6 @@ export default {
 
             //Copy score for sorting
             this.updatePositions(index, selectedPlayer.score);
-
-            //Reset strikes if they got a hit
-            if(score > 0) {
-                selectedPlayer.strikes = 0;
-            }
-
-            //Try to clear computed. Nopetown.
-            //this.players[index].name += '_'; //Diag
 
             //Declare winner
             if(selectedPlayer.score === this.playToScore) {
@@ -466,6 +450,7 @@ export default {
                 updatedPlayers.forEach((player, index) => {
 
                   //Back to 
+                  // if they bust over 50 this isn't recalcing. Why?
                   this.players[index].score = player.turns.reduce(((sum, turn) => {
                       let subtotal = sum + turn;
                       return subtotal > this.playToScore ? this.resetTo : subtotal;

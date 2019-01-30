@@ -32,10 +32,7 @@
     methods: {
       showStrikes(player) {
 
-        let reversedTurns = player.turns.slice(0); //get a copy, not reference, to reverse without infinite loop
-            reversedTurns.reverse();
-
-        let consecStrikes = reversedTurns.reduce(
+        let consecStrikes = player.turns.reduce(
             //(strikeCount, score) => (score === 0) ? strikeCount+1 : 0
             function(strikeCount, score) {
                 if(strikeCount >= 3) {
