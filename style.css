@@ -180,7 +180,7 @@ footer a:hover {
 footer input[type=number] {
     padding: 0.3rem;
     font-size: inherit;
-    background: #2f6946;
+    background: #124a61;
     color: #cffbd0;
     width: 3rem;
     margin-left: 0.5rem;
@@ -349,6 +349,6 @@ body.theme-white {
 }
 
 .theme-hot footer input[type=number] {
-    background: #dd7926;
+    background: #773919;
     color: #fde5b5;
 }

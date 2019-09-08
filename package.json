@@ -12,7 +12,8 @@
   "dependencies": {
     "url-parse": ">=1.4.3",
     "uuid": "^3.3.2",
-    "vue": "^2.5.21"
+    "vue": "^2.6.10",
+    "webpack-cli": "^3.3.8"
   },
   "browserslist": [
     "> 1%",
@@ -26,15 +27,15 @@
     "babel-preset-stage-3": "^6.24.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
-    "eslint": "^5.4.0",
-    "eslint-plugin-vue": "^4.7.1",
+    "eslint": "^6.3.0",
+    "eslint-plugin-vue": "^5.2.3",
     "file-loader": "^1.1.4",
     "node-sass": "^4.9.3",
     "sass-loader": "^6.0.6",
-    "vue-loader": "^13.7.3",
-    "vue-template-compiler": "^2.5.21",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.11"
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.39.0",
+    "webpack-dev-server": "^3.8.0"
   },
   "eslintConfig": {
     "extends": [
