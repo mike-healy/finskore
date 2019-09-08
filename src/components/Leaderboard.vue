@@ -13,7 +13,7 @@
       <div class='pos'>{{ showPosition(player.position) }}</div>
       <div class="player">
         <div class="name">
-          {{ player.name }}
+          Wan
           <img v-show="player.theyBlewIt" src="img/sad.png" alt=":(">
         </div>
         <div class="strikes">{{ showStrikes(player) }}</div>
