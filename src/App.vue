@@ -277,6 +277,7 @@ export default {
             //Too many points. Congratulations, you played yourself
             if(selectedPlayer.score > this.playToScore) {
                 selectedPlayer.theyBlewIt = true;
+                selectedPlayer.score = this.resetTo;
             } else {
                 selectedPlayer.theyBlewIt = false;
             }
