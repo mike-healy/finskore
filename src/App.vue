@@ -481,7 +481,7 @@ export default {
         //Theme change event already handled
         let app = this;
 
-        ['theme-white', 'theme-default', 'theme-default'].forEach(function(t) {
+        ['theme-white', 'theme-default'].forEach(function(t) {
             let theme = t.replace('theme-', '');
 
             if(document.body.classList.contains(t)) {

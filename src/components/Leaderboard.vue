@@ -14,7 +14,7 @@
       <div class="player">
         <div class="name">
           {{ player.name }}
-          <img v-show="player.theyBlewIt" src="img/sad.png" alt=":(">
+          <img v-show="player.theyBlewIt" src="img/sad.png" alt="sad face">
         </div>
         <div class="strikes">{{ showStrikes(player) }}</div>
       </div>
