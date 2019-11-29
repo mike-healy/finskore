@@ -214,6 +214,12 @@ export default {
 
         updateHistory({ turnIndex, newScore }) {
 
+            /*
+            turnIndex is from opposite direction to the turn history in the player's timeline.
+            Flip the index to refer to correct position in source array, otherwise we're updating the wrong score
+            */
+            turnIndex = this.selectedPlayer.turns.length-turnIndex-1
+
             this.selectedPlayer.turns[turnIndex] = newScore
 
             const index = this.selectedPlayerIndex
