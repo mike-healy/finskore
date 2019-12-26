@@ -51,27 +51,33 @@
         v-show="showArrangementGuide"
     />
 
-    <p v-show="players.length > 0" class="right top-space">
+    <p v-show="players.length > 0" class="center top-space">
       <button @click="resetGame" class="warning">Reset Everything</button>
       <button @click="resetScores">Reset Scores</button>
     </p>
 
-    <footer>
-        <p>Play to <input type="number" v-model.number="playToScore" max="1000"></p>
-        <p><img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide"></p>
-
-        <p>
-            <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
-        </p>
+    <div class="controls">
+        <div>
+            <p>Play to <br>
+            <input type="number" v-model.number="playToScore" max="1000"></p>
+        </div>
         
-        <PhotoCredit :christmas="christmas" :theme="theme" />
+        <div>
+            <img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide" alt="Show arrangement">
+        </div>
 
         <div class='themeSwitcher'>
             <div @click="setTheme('white')" class='white'></div>
             <div @click="setTheme('default')" class='default'></div>
             <div @click="setTheme('hot')" class='hot'></div>
         </div>
+    </div>
+
+    <footer>
+        <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
+        <PhotoCredit :christmas="christmas" :theme="theme" />
     </footer>
+
   </div> <!-- /#app -->
 </template>
 
@@ -496,9 +502,6 @@ export default {
             }
         });
 
-        /* if(document.body.classList.contains('theme-hot')) {
-            this.setTheme('hot');
-        } */
     },
 
     updated() {
@@ -522,9 +525,42 @@ if( localStorage.getItem('theme') ) {
 </script>
 
 <style lang="scss">
-footer p {
-    margin-bottom: 1.5rem;
+div.controls {
+    margin-top: 4rem;
+    display: flex;
+    flex-grow: 1; //how to occupy full width
+    justify-content: center;
+    font-size: 0.8rem;
+
+    > :first-child {text-align: left;}
+    > :last-child {text-align: right;}
+
+    p {margin: 0;}
+
+    > div {
+        flex: 2;
+        text-align: center;
+    }
+
+    > div.themeSwitcher {
+        flex: 3;
+    }
 }
+
+.controls input[type=number] {
+    margin-top: 0.3rem;
+    padding: 0.3rem;
+    font-size: inherit;
+    background: #124a61;
+    color: #cffbd0;
+    width: 3rem;
+}
+
+.theme-hot .controls input[type=number] {
+    background: #2b0f01;
+    color: #fde5b5;
+}
+
 
 img.arrangement {
     border-radius: 4px;

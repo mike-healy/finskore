@@ -52,7 +52,7 @@ body.theme-hot.christmas {
 .right {text-align: right;}
 .top-space {margin-top: 4rem;}
 
-header {margin-bottom: 2rem;}
+header.container {margin-bottom: 2rem;}
 header h1 {margin: 0;}
 
 section.winner {
@@ -177,15 +177,6 @@ footer a:hover {
     color: #3c7940;
 }
 
-footer input[type=number] {
-    padding: 0.3rem;
-    font-size: inherit;
-    background: #124a61;
-    color: #cffbd0;
-    width: 3rem;
-    margin-left: 0.5rem;
-}
-
 .themeSwitcher {
     float: right;
     margin-bottom: 1rem;
@@ -201,10 +192,11 @@ footer input[type=number] {
         cursor: pointer;
     }
 
-    .themeSwitcher .white {background: #eee; border: 1px solid #afafaf; margin-right: 8px;}
+    .themeSwitcher .white {background: #eee; margin-right: 8px;}
     .themeSwitcher .default {background: #23676b; margin-right: 8px;}
     .themeSwitcher .hot {background: #eabd2e;}
 
+    .theme-white .themeSwitcher .white {background: #fff;}
     
 /* THEME - HOT */
 body.theme-hot {
@@ -260,7 +252,7 @@ body.theme-white {
 .theme-white button {
     background: #3d5894;
     color: #eef4f5;
-    box-shadow: 3px 3px 0px 0px rgb(127, 212, 128);
+    box-shadow: 3px 3px 0px 0px rgb(164, 201, 218);
     border: none;
 }
 
@@ -346,9 +338,4 @@ body.theme-white {
     background: #353535;
     background: radial-gradient(#7d7d7d, #353535);
     color: #c9f5e7;
-}
-
-.theme-hot footer input[type=number] {
-    background: #773919;
-    color: #fde5b5;
 }
