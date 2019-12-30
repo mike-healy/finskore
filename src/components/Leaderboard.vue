@@ -19,7 +19,7 @@
         <div class="strikes">{{ showStrikes(player) }}</div>
       </div>
       <div class="score">{{ player.score }}</div>
-      <div class="togo">{{ playToScore - player.score }}</div>
+      <div class="togo" :class="{'within-range': playToScore-player.score <= 12}">{{ playToScore - player.score }}</div>
     </div>
   </section>
 </template>
@@ -120,6 +120,16 @@
       min-width: 3rem;
       text-align: right;
   }
+
+  //Within range of winning
+  .player .togo.within-range {
+    text-decoration: underline;
+    text-underline-position: under;
+  }
+  .player.myturn .togo {
+    opacity: 0.8;
+  }
+
 
   .player .score {
       font-weight: bold;
