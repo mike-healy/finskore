@@ -52,13 +52,14 @@
             return str;
         }
 
-        for(let i=0; i<consecStrikes; i++) {
+        for (let i=0; i<consecStrikes; i++) {
             str += 'x ';
         }
         return str;
       },
 
       hasStruckOut,
+
       // English-ify the numeric position
       showPosition(p) {
           // 1st, 2nd, 3rd, 4th, 5th,
@@ -66,6 +67,9 @@
               return p + 'th';
           }
           switch(p) {
+              case 0:
+                  return ' '; //when first turn is a miss there are no positions
+                  break;
               case 1:
                   return '1st';
                   break;
