@@ -77,6 +77,10 @@ form button {
     width: 8rem;
 }
 
+form button.auto {
+    width: auto;
+}
+
 .theme-white form {
     background: #92dec7;
 }
@@ -117,7 +121,7 @@ button {
 }
 
 button.cancel {
-    color: #46a248;
+    color: #a2e6a4;
     border-color: #46a248;
     background: rgb(12, 58, 80);
 }
@@ -244,7 +248,7 @@ body.theme-white {
 }
 
 .theme-hot button.cancel {
-    color: #dc8989;
+    color: #e2a6a6;
     border-color: #8e5b75;
     background: rgb(105, 59, 83);
 }

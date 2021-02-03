@@ -2,8 +2,7 @@
   <div class='score' :class="{editing: mode==='update'}">
       <!--
       @click="$emit('updateHistory')"
-
-        -->
+      -->
     <button
       v-for="score in listOfValidScores"
       v-bind:class="[score ? 'score' : 'miss']"

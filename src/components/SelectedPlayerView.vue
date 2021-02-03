@@ -1,7 +1,10 @@
 <template>
   <!-- Enter players score for a turn -->
   <form class='enterScore' @submit.prevent>
-    <h2><PlayerNamePossesive :name="player.name" /> Game</h2>
+    <header>
+      <h2><PlayerNamePossesive :name="player.name" /> Game</h2>
+      <button @click.prevent="cancel" class="close">&#215;</button>
+    </header>
 
     <div class="score-container">
 
@@ -44,7 +47,7 @@
     <p>
       <button
         @click="changeWhoseTurnItIs(player.id)"
-        class="cancel"
+        class="cancel auto"
        >
         Set to <PlayerNamePossesive :name="player.name" /> turn
       </button>
@@ -116,3 +119,21 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+  header {
+    display: flex;
+
+    h2 {
+      flex-grow: 1;
+    }
+    
+    button {
+      width: auto;
+      margin-top: 0;
+      padding: 0.5rem 1rem;
+      border-radius: 3px;
+      flex-shrink: 1;
+    }
+  }
+</style>
