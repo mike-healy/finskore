@@ -45,6 +45,10 @@
       @selectPlayer="handlePlayerSelectedFromLeaderboard"
     />
 
+    <BdayMessage
+        :bday = bday
+    />
+
     <Arrangement
         :showArrangementGuide = showArrangementGuide
         @hide="showArrangementGuide = false"
@@ -90,11 +94,12 @@ Vue.directive('focus', {
 });
 
 import Vue from 'vue';
-import Leaderboard from './components/Leaderboard.vue';
+import Leaderboard from './components/Leaderboard';
 import SelectedPlayerView from './components/SelectedPlayerView';
 import SetupGame from './components/SetupGame';
-import Arrangement from './components/Arrangement.vue';
-import PhotoCredit from './components/PhotoCredit.vue';
+import Arrangement from './components/Arrangement';
+import PhotoCredit from './components/PhotoCredit';
+import BdayMessage from './components/BdayMessage';
 import Finskore from './Finskore';
 
 export default {
@@ -103,7 +108,8 @@ export default {
       SelectedPlayerView,
       Arrangement,
       SetupGame,
-      PhotoCredit
+      PhotoCredit,
+      BdayMessage
     },
     name: 'app',
 
@@ -114,6 +120,7 @@ export default {
 
             theme: 'default',
             christmas: false,
+            bday: '',
             showArrangementGuide: false,
 
             //Config
@@ -421,14 +428,26 @@ export default {
             localStorage.setItem('theme', theme);
         },
 
-        christmasTheme() {
+        specialEventTheme() {
             let d = new Date();
-            if(d.getMonth() !== 11) {
-                return;
+
+            const isChristmas = (d) => d.getMonth() === 11 && (d.getDate() >= 10 && d.getDate() <= 30);
+
+            const isSimonBday = (d) => {
+                if (d.getMonth() !== 5) return false;
+                if (d.getDate() === 21) return true;
+                if (d.getDate() === 5 && d.getFullYear() === 2021) return true;
+                return false;
             }
-            if(d.getDate() >= 10 && d.getDate() <= 30) {
+
+            if (isChristmas(d)) {
                 document.body.classList.add('christmas');
                 this.christmas = true;
+            }
+
+            if (isSimonBday(d)) {
+                document.body.classList.add('bday-simon');
+                this.bday = 'Simon';
             }
         }
     },
@@ -488,7 +507,15 @@ export default {
             this.whoseTurn = state.whoseTurn;
         }
 
-        this.christmasTheme();
+        this.specialEventTheme();
+
+        // Only load up Google fonts if needed for a Birthday Message
+        if (this.bday) {
+            let fontLink = document.createElement('link');
+            fontLink.rel = 'stylesheet';
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap';
+            document.head.appendChild(fontLink);
+        }
 
         //Hacky -- update state with theme by sniffing DOM
         //Theme change event already handled
@@ -501,7 +528,6 @@ export default {
                 app.setTheme(theme);
             }
         });
-
     },
 
     updated() {
