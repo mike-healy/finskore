@@ -24,4 +24,6 @@ npm run dev
 npm run build
 ```
 
+Tested on Node v14.14.0
+
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
