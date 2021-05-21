@@ -1,0 +1,27 @@
+{
+    "short_name": "Finskore",
+    "name": "Finskore - Finska Scoring App",
+    "icons": [
+        {
+            "src": "/img/icon_192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+          },
+          {
+            "src": "/img/icon_512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+          },
+          {
+            "src": "/img/icon_512_maskable.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+          }
+    ],
+    "start_url": "/",
+    "display": "minimal-ui",
+    "theme_color": "#307B6A",
+    "background_color": "#307B6A"
+}
