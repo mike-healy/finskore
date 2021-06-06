@@ -436,7 +436,7 @@ export default {
             const isSimonBday = (d) => {
                 if (d.getMonth() !== 5) return false;
                 if (d.getDate() === 21) return true;
-                if (d.getDate() === 5 && d.getFullYear() === 2021) return true;
+                if (d.getDate() === 6 && d.getFullYear() === 2021) return true;
                 return false;
             }
 
