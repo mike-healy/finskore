@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "url-parse": ">=1.4.3",
+    "url-parse": ">=1.5.2",
     "uuid": "^3.3.2",
     "vue": "^2.6.12",
     "webpack-cli": "^3.3.8"
