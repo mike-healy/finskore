@@ -132,7 +132,6 @@
       width: auto;
       margin-top: 0;
       padding: 0.5rem 1rem;
-      border-radius: 3px;
       flex-shrink: 1;
     }
   }

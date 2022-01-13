@@ -75,6 +75,7 @@ form {
 
 form button {
     width: 8rem;
+    border-radius: 3px;
 }
 
 form button.auto {
@@ -103,6 +104,7 @@ div.addPlayerContainer {
     display: flex;
     max-width: 30rem;
     margin: 0 auto;
+    gap: 1rem;
 }
 
 .addPlayerContainer div:first-child {flex-grow: 1;}

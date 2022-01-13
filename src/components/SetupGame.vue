@@ -1,6 +1,9 @@
 <template>
-  <form @submit.prevent="handleNewPlayerFormSubmit()" class="createGame">
-    <h2>Add Players</h2>
+  <form @submit.prevent="handleNewPlayerFormSubmit()" class="createGame" id="createGame">
+    <header>
+      <h2>Add Players</h2>
+      <button @click.prevent="closeNewGameInterface()" class="cancel" aria-label="close" aria-controls="createGame">&#215;</button>
+    </header>
 
     <div class='addPlayerContainer'>
       <div>
@@ -9,8 +12,8 @@
       <button type="submit" style="margin: 0;">+ Add</button>
     </div>
 
-    <p class="center">
-      <button @click.prevent="closeNewGameInterface()" class="cancel" style="margin-right: 8px;">close</button>
+    <p class="startRow right">
+      &nbsp;
       <button v-show="$parent.players.length > 0" @click.prevent="startGame()">Start Game</button>
     </p>
   </form>
@@ -49,3 +52,29 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+  header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      flex-grow: 1;
+      margin: 0;
+    }
+
+    button {
+      flex-shrink: 1;
+      display: block;
+      width: 4ch;
+      margin: 0;
+    }
+  }
+
+  p.startRow {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 30rem;
+  }
+</style>

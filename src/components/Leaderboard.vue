@@ -13,7 +13,7 @@
       <div class='pos'>{{ showPosition(player.position) }}</div>
       <div class="player">
         <div class="name">
-          {{ player.name }}
+          <button class="seethrough">{{ player.name }}</button>
           <img v-show="player.theyBlewIt" src="img/sad.png" alt="sad face">
         </div>
         <div class="strikes">{{ showStrikes(player) }}</div>
@@ -161,5 +161,15 @@
   .struckout {
       text-decoration: line-through;
       color: #a7d5ef;
+  }
+
+  //More semantic and keyboard A11Y
+  button.seethrough {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
   }
 </style>
