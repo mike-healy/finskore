@@ -31,20 +31,24 @@
 
     </div>
 
-    <p>
-      <button
-        v-if="!gameInProgress"
-        @click.prevent="deletePlayer(player.id)"
-        class="warning"
-       >
-        Delete
-      </button>
-      <button @click.prevent="cancel" class="cancel">Close</button>
-    </p>
+    <div v-if="!gameInProgress" class="close-delete">
+      <div class="left">
+        <button @click.prevent="cancel" class="cancel">Close</button>
+      </div>
+
+      <div class="right">
+        <button
+          @click.prevent="deletePlayer(player.id)"
+          class="warning"
+         >
+          Delete
+        </button>
+      </div>
+    </div>
 
     <!-- Todo: keep modal open and show 'done' when turn changed. 
     Users would set their turn to also score for them -->
-    <p>
+    <p v-if="gameInProgress" class="right">
       <button
         @click="changeWhoseTurnItIs(player.id)"
         class="cancel auto"
@@ -123,16 +127,28 @@
 <style scoped lang="scss">
   header {
     display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
 
     h2 {
       flex-grow: 1;
+      margin: 0;
     }
     
     button {
       width: auto;
-      margin-top: 0;
+      margin: 0;
       padding: 0.5rem 1rem;
       flex-shrink: 1;
+    }
+  }
+
+  div.close-delete {
+    display: flex;
+    margin-top: 2rem;
+
+    > div {
+      flex-grow: 1;
     }
   }
 </style>

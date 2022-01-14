@@ -48,6 +48,9 @@
 <style lang="scss">
   div.score {
     transition: padding 0.5s;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 
   div.score.editing {
@@ -66,13 +69,19 @@
   }
 
   .score button {
-      width: 35%;
-      margin: 0 0.5rem 1.5rem 0.5rem;
+      width: auto;
+      //width: 35%;
+      //margin: 0 0.5rem 1.5rem 0.5rem;
+      margin: 0;
+      padding: 0.65rem 0;
       font-weight: bold;
   }
 
   .score button.miss {
-      width: 90%;
+      //width: 90%;
+      grid-column-start: 1;
+      grid-column-end: 3;
+      width: 100%;
   }
 
   .score button {
