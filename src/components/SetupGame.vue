@@ -2,7 +2,7 @@
   <form @submit.prevent="handleNewPlayerFormSubmit()" class="createGame" id="createGame">
     <header>
       <h2>Add Players</h2>
-      <button @click.prevent="closeNewGameInterface()" class="cancel" aria-label="close" aria-controls="createGame">&#215;</button>
+      <button type="button" @click.prevent="closeNewGameInterface()" class="cancel" aria-label="close" aria-controls="createGame">&#215;</button>
     </header>
 
     <div class='addPlayerContainer'>
