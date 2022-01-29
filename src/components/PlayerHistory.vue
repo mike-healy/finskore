@@ -88,7 +88,7 @@
       line-height: 3rem;
       border-radius: 50%;
       text-align: center;
-      background: #19596c;
+      background: #07181e;
       color: #77c97c;
   }
 

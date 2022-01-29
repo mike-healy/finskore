@@ -2,6 +2,14 @@
   <!-- Wrapper needed so that div.score doesn't expand in height to match the history, creating very tall buttons -->
   <div>
     <div class='score' :class="{editing: mode==='update'}">
+      <h3 class='edit-title'>edit score for this turn:</h3>
+      <button
+        v-for="score in listOfValidScores"
+        v-bind:class="[score ? 'score' : 'miss']"
+        @click="onScoreSelection(score)"
+        v-bind:key="score"
+      >
+        {{ score || 'MISS' }}
       </button>
     </div> <!-- /.score -->
   </div>
@@ -40,16 +48,32 @@
 
 <style lang="scss" scoped>
   div.score {
-    transition: padding 0.5s;
+    transition: background-color 0.5s;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
 
+  h3.edit-title {
+    display: none;
+    font-size: 0.875rem;
+    font-weight: normal;
+    font-family: monospace;
+    text-align: left;
+    margin: 0;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
   div.score.editing {
     border: 1px dashed #94ce56;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
     background: rgba(38, 150, 132, 0.15);
+    box-shadow: 0 0 4px 0 rgba(0,40,77, 0.2);
+
+    h3.edit-title {
+      display: block;
+    }
   }
 
   .theme-hot div.score.editing {
@@ -75,6 +99,9 @@
       grid-column-start: 1;
       grid-column-end: 3;
       width: 100%;
+      color: #e3dbab;
+      background: #483c3b;
+      border-color: #cca956;
   }
 
   .score button {
