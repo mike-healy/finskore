@@ -1,16 +1,9 @@
 <template>
-  <div class='score' :class="{editing: mode==='update'}">
-      <!--
-      @click="$emit('updateHistory')"
-      -->
-    <button
-      v-for="score in listOfValidScores"
-      v-bind:class="[score ? 'score' : 'miss']"
-      @click="onScoreSelection(score)"
-      v-bind:key="score"
-    >
-      {{ score || 'MISS' }}
-    </button>
+  <!-- Wrapper needed so that div.score doesn't expand in height to match the history, creating very tall buttons -->
+  <div>
+    <div class='score' :class="{editing: mode==='update'}">
+      </button>
+    </div> <!-- /.score -->
   </div>
 </template>
 
@@ -45,7 +38,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   div.score {
     transition: padding 0.5s;
     display: grid;
