@@ -1,64 +1,65 @@
 <template>
   <div id="app">
 
-    <p v-show="!gameInProgress" class="center">
-      <button @click="openNewGameInterface()">Add Players</button>
-      <button v-show="players.length >= 2" @click="runShuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
-    </p>
-
-    <!-- DECLARE WINNER -->
-    <transition name="slide-fade">
-        <section v-show="winner !== ''" class="winner">
-        <h2>{{ winner }} Won!</h2>
-        <p>
-            <button class="cancel" @click="winner=''">close</button>
+    <main>
+        <slot>
+            <header class="container">
+                <h1>Finskore</h1>
+                <p>A free browser-based scoring app for Finska, Klop &amp; Molkky</p>
+            </header>
+        </slot>
+        
+        <p v-show="!gameInProgress" class="center">
+          <button @click="openNewGameInterface()">Add Players</button>
+          <button v-show="players.length >= 2" @click="runShuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
         </p>
-        </section>
-    </transition>
-
-    <SetupGame
-      v-if="showNewGameInterface"
-      :addPlayer="addPlayer"
-      :startGame="startGame"
-      :closeNewGameInterface="closeNewGameInterface"
-    />
-
-    <transition name="slide-fade">
-        <div v-if="flashMessage" v-focus tabindex="-1" class="flashMessage">{{ flashMessage }}</div>
-    </transition>
-
-    <SelectedPlayerView
-      v-if="showScoreModal"
-      @updateHistory="updateHistory"
-      :player="selectedPlayer"
-      :gameInProgress="gameInProgress"
-      :saveScore="saveScore"
-      :cancel="closeSelectedPlayer"
-      :changeWhoseTurnItIs="changeWhoseTurnItIs"
-      :deletePlayer="deletePlayer"
-    />
-
-    <Leaderboard
-      :players="players"
-      :currentTurnPlayerId="whoseTurn"
-      :playToScore="playToScore"
-      @selectPlayer="handlePlayerSelectedFromLeaderboard"
-    />
-
-    <BdayMessage
-        :bday = bday
-    />
-
-    <Arrangement
-        :showArrangementGuide = showArrangementGuide
-        @hide="showArrangementGuide = false"
-        v-show="showArrangementGuide"
-    />
-
-    <p v-show="players.length > 0" class="center top-space">
-      <button @click="resetGame" class="warning">Reset Everything</button>
-      <button @click="resetScores">Reset Scores</button>
-    </p>
+        <!-- DECLARE WINNER -->
+        <transition name="slide-fade">
+            <section v-show="winner !== ''" class="winner">
+                <h2>{{ winner }} Won!</h2>
+                <p>
+                    <button class="cancel" @click="winner=''">close</button>
+                </p>
+            </section>
+        </transition>
+        <SetupGame
+          v-if="showNewGameInterface"
+          :addPlayer="addPlayer"
+          :startGame="startGame"
+          :closeNewGameInterface="closeNewGameInterface"
+        />
+        <transition name="slide-fade">
+            <div v-if="flashMessage" v-focus tabindex="-1" class="flashMessage" aria-live="assertive">{{ flashMessage }}</div>
+        </transition>
+        <SelectedPlayerView
+          v-if="showScoreModal"
+          @updateHistory="updateHistory"
+          :player="selectedPlayer"
+          :gameInProgress="gameInProgress"
+          :saveScore="saveScore"
+          :cancel="closeSelectedPlayer"
+          :changeWhoseTurnItIs="changeWhoseTurnItIs"
+          :deletePlayer="deletePlayer"
+        />
+        <Leaderboard
+          :players="players"
+          :currentTurnPlayerId="whoseTurn"
+          :playToScore="playToScore"
+          @selectPlayer="handlePlayerSelectedFromLeaderboard"
+        />
+        <BdayMessage
+            :bday = bday
+        />
+        <Arrangement
+            :showArrangementGuide = showArrangementGuide
+            @hide="showArrangementGuide = false"
+            v-show="showArrangementGuide"
+        />
+        <p v-show="players.length > 0" class="center top-space">
+          <button @click="resetGame" class="warning">Reset Everything</button>
+          <button @click="resetScores">Reset Scores</button>
+        </p>
+    </main>
 
     <div class="controls">
         <div>
@@ -552,11 +553,11 @@ if( localStorage.getItem('theme') ) {
 
 <style lang="scss">
 div.controls {
-    margin-top: 4rem;
+    margin-top: 2rem;
     display: flex;
-    flex-grow: 1; //how to occupy full width
+    //flex-grow: 1; //how to occupy full width
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.875rem;
 
     > :first-child {text-align: left;}
     > :last-child {text-align: right;}
@@ -575,11 +576,11 @@ div.controls {
 
 .controls input[type=number] {
     margin-top: 0.3rem;
-    padding: 0.3rem;
+    padding: 0.6rem;
     font-size: inherit;
     background: #124a61;
     color: #cffbd0;
-    width: 3rem;
+    width: 8ch;
 }
 
 .theme-hot .controls input[type=number] {
