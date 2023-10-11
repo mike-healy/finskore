@@ -68,7 +68,9 @@
         </div>
         
         <div>
-            <img src="img/arrangement.png" class="arrangement" @click="showArrangementGuide = !showArrangementGuide" alt="Show arrangement">
+            <button @click="showArrangementGuide = !showArrangementGuide" class="arrangement">
+              <img src="img/arrangement.png" class="arrangement" alt="Show arrangement" width="60" height="40">
+            </button>
         </div>
 
         <div class='themeSwitcher'>
@@ -593,6 +595,13 @@ img.arrangement {
     border-radius: 4px;
     max-width: 60px;
     box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+button.arrangement {
+  border: none;
+  padding: 0;
+  background: transparent;
+  font-size: initial;
 }
 
 div.flashMessage {
