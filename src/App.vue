@@ -6,7 +6,6 @@
             <header class="container">
                 <h1>Finskore</h1>
                 <p>A free browser-based scoring app for Finska, Klop &amp; Molkky</p>
-                <p class="pwa-tip"><span>Tip</span> Add this page to your home screen for offline loading</p>
             </header>
         </slot>
         
@@ -552,22 +551,6 @@ if( localStorage.getItem('theme') ) {
 </script>
 
 <style lang="scss">
-.pwa-tip {
-    span {
-        display: inline-block;
-        margin-right: 2px;
-        padding: 2px 6px;
-        background: #fff;
-        color: #444;
-        transform: rotate(-3deg);
-    }
-}
-
-.theme-white .pwa-tip span {
-    background: #e86613;
-    color: #fff;
-}
-
 div.controls {
     margin-top: 2rem;
     display: flex;
