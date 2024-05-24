@@ -1,14 +1,5 @@
-// Service Worker
-
-/*
-This should cache all the assets in v1 cache
-But if anything changes you're not going to know. The cache will keep serving the stale ones.
-
-SSL! – ah shit, this will probably fail because of SSL. Damn.
-*/
-
 const putInCache = async(request, response) => {
-  const cache = await caches.open('v1');
+  const cache = await caches.open('v1.5'); // update on deploy. Will that be enough, or is this script itself cached?
   await cache.put(request, response);
 };
 
@@ -40,6 +31,10 @@ const cacheFirst = async({ request, fallbackUrl }) => {
 };
 
 self.addEventListener('fetch', (event) => {
+  if (!event.request.url.startsWith('http')) {
+    return;
+  }
+
   event.respondWith(
     cacheFirst({
       request: event.request,
