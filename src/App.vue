@@ -326,13 +326,13 @@ export default {
 
             scores.sort(function(a,b) {
 
-                if( (!a.struckout && !b.struckout) ||
-                    (a.struckout && b.struckout) ) {
+                if ((!a.struckout && !b.struckout) ||
+                    (a.struckout && b.struckout)) {
 
                     return (a.score < b.score) ? 1 : -1;
                 }
 
-                if(a.struckout) {
+                if (a.struckout) {
                     return 1;
                 } else {
                     return -1;
@@ -345,13 +345,12 @@ export default {
             let prevRankingPosition = 0;
 
             scores.forEach( (obj, index) => {
-                
-                if( Finskore.hasStruckOut(this.players[obj.index]) ) {
+                if ( Finskore.hasStruckOut(this.players[obj.index]) ) {
                     this.players[obj.index].position = this.players.length;
                 } else {
 
                     //Tied with previous score, share their ranking position (there can be 3+ way ties)
-                    if(obj.score === prevScore) {
+                    if (obj.score === prevScore) {
                         this.players[obj.index].position = prevRankingPosition;
                     } else {
                         this.players[obj.index].position = index+1;
@@ -364,7 +363,6 @@ export default {
         },
 
         nextTurn() {
-
             // todo FIX BUG -- if all players struck out goes to max call stack size (i.e. infinite loop)
             // matters slightly more because you can now retrospectively change a historical turn to a strike. Still edge case
 
@@ -456,7 +454,6 @@ export default {
     },
 
     computed: {
-
         resetTo() {
             return Math.ceil( this.playToScore/2 );
         },

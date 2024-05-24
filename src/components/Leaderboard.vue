@@ -62,7 +62,6 @@
 
       // English-ify the numeric position
       showPosition(p) {
-          // 1st, 2nd, 3rd, 4th, 5th,
           if (p >= 4) {
               return p + 'th';
           }
