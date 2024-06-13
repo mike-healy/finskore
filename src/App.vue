@@ -85,7 +85,7 @@
         <PhotoCredit :christmas="christmas" :theme="theme" />
     </footer>
 
-    <small class="version">v103</small>
+    <small class="version">v104</small>
 
   </div> <!-- /#app -->
 </template>
