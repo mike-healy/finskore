@@ -1,5 +1,12 @@
 const putInCache = async(request, response) => {
-  const cache = await caches.open('v1.8'); // update on deploy. Will that be enough, or is this script itself cached?
+
+  // Try excluding this file from cache
+  if (request.url.endsWith('service-worker.js')) {
+    console.log('not caching service-worker.js file');
+    return;
+  }
+
+  const cache = await caches.open('v1.10'); // update on deploy. Will that be enough, or is this script itself cached?
   await cache.put(request, response);
 };
 
