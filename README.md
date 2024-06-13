@@ -1,4 +1,4 @@
-# Finksa / Klop / Molkky -- The Greatest Game (?)
+# Finskore – Score games of Finksa, Klop or Molkky
 ![Finskore Banner Graphic](https://www.finskore.com/img/banner.png)
 
 Are you sick of have to remember numbers, and worse still add number together and subtract the sum of those numbers from 50 in your head, while you're just trying to enjoy throwing a stick at other sticks with numbers on them?
