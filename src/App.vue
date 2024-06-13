@@ -81,9 +81,11 @@
     </div>
 
     <footer>
-        <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>.
+        <a href="https://github.com/mike-healy/finskore" target="fsgh" rel="noopener">Finskore on Github</a>
         <PhotoCredit :christmas="christmas" :theme="theme" />
     </footer>
+
+    <small class="version">v100</small>
 
   </div> <!-- /#app -->
 </template>
@@ -621,5 +623,11 @@ div.flashMessage {
 }
 .slide-fade-enter, .slide-fade-leave-to {
   opacity: 0;
+}
+
+small.version {
+    display: block;
+    margin-top: 2rem;
+    opacity: 0.4;
 }
 </style>

@@ -1,5 +1,5 @@
 const putInCache = async(request, response) => {
-  const cache = await caches.open('v1.6'); // update on deploy. Will that be enough, or is this script itself cached?
+  const cache = await caches.open('v1.7'); // update on deploy. Will that be enough, or is this script itself cached?
   await cache.put(request, response);
 };
 
