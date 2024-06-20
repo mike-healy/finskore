@@ -47,9 +47,6 @@
           :playToScore="playToScore"
           @selectPlayer="handlePlayerSelectedFromLeaderboard"
         />
-        <BdayMessage
-            :bday = bday
-        />
         <Arrangement
             :showArrangementGuide = showArrangementGuide
             @hide="showArrangementGuide = false"
@@ -104,7 +101,6 @@ import SelectedPlayerView from './components/SelectedPlayerView';
 import SetupGame from './components/SetupGame';
 import Arrangement from './components/Arrangement';
 import PhotoCredit from './components/PhotoCredit';
-import BdayMessage from './components/BdayMessage';
 import Finskore from './Finskore';
 
 export default {
@@ -114,7 +110,6 @@ export default {
       Arrangement,
       SetupGame,
       PhotoCredit,
-      BdayMessage
     },
     name: 'app',
 
@@ -125,7 +120,6 @@ export default {
 
             theme: 'default',
             christmas: false,
-            bday: '',
             showArrangementGuide: false,
 
             //Config
@@ -436,21 +430,9 @@ export default {
 
             const isChristmas = (d) => d.getMonth() === 11 && (d.getDate() >= 10 && d.getDate() <= 30);
 
-            const isSimonBday = (d) => {
-                if (d.getMonth() !== 5) return false;
-                if (d.getDate() === 21) return true;
-                if (d.getDate() === 6 && d.getFullYear() === 2021) return true;
-                return false;
-            }
-
             if (isChristmas(d)) {
                 document.body.classList.add('christmas');
                 this.christmas = true;
-            }
-
-            if (isSimonBday(d)) {
-                document.body.classList.add('bday-simon');
-                this.bday = 'Simon';
             }
         }
     },
@@ -510,14 +492,6 @@ export default {
         }
 
         this.specialEventTheme();
-
-        // Only load up Google fonts if needed for a Birthday Message
-        if (this.bday) {
-            let fontLink = document.createElement('link');
-            fontLink.rel = 'stylesheet';
-            fontLink.href = 'https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap';
-            document.head.appendChild(fontLink);
-        }
 
         //Hacky -- update state with theme by sniffing DOM
         //Theme change event already handled
