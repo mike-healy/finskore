@@ -23,7 +23,7 @@ npm run dev
 npm run build
 ```
 
-Tested on Node v14.14.0
+Tested on Node v14.14.0 (needs a rewrite!)
 
 ## Service Worker
 Finskore now has a service worker to cache assets for offline loading.
