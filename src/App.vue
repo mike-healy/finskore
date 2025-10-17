@@ -175,7 +175,7 @@ export default {
         runShuffleOrder(action) {
             action = action || 'start';
 
-            if(action === 'start') {
+            if (action === 'start') {
                 this.shufflerInterval = setInterval(this.shuffleOrder, 150);
                 return;
             }
@@ -187,21 +187,21 @@ export default {
 
         shuffleOrder() {
 
-            if(this.players.length < 2) {
+            if (this.players.length < 2) {
                 return;
             }
 
             const reducer = (accumulator, current) => accumulator + current.id;
             const prevOrder = this.players.reduce(reducer, '');
 
-            while(this.players.reduce(reducer, '') === prevOrder) {
+            while (this.players.reduce(reducer, '') === prevOrder) {
                 this.shuffleCount++;
                 this.players.sort( function(a,b) {
                         return (Math.random() < 0.5) ? -1 : 1;
                 });
             }
 
-            if(this.shuffleCount >= 6) {
+            if (this.shuffleCount >= 6) {
                 this.runShuffleOrder('stop');
             }
         },
@@ -210,7 +210,7 @@ export default {
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
           const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
 
-          if(!confirm('Remove ' + selectedPlayer.name + ' from the game?')) {
+          if (!confirm('Remove ' + selectedPlayer.name + ' from the game?')) {
               return;
           }
 
@@ -271,7 +271,7 @@ export default {
         },
 
         saveScore({ score, playerId }) {
-            if(typeof score === 'undefined') {
+            if (typeof score === 'undefined') {
                 return;
             }
             const selectedPlayer = this.players.find((player) => (player.id === playerId));
@@ -294,7 +294,7 @@ export default {
             selectedPlayer.score += score;
 
             //Too many points. Congratulations, you played yourself
-            if(selectedPlayer.score > this.playToScore) {
+            if (selectedPlayer.score > this.playToScore) {
                 selectedPlayer.theyBlewIt = true;
                 selectedPlayer.score = this.resetTo;
             } else {
@@ -305,7 +305,7 @@ export default {
             this.updatePositions(index, selectedPlayer.score);
 
             //Declare winner
-            if(selectedPlayer.score === this.playToScore) {
+            if (selectedPlayer.score === this.playToScore) {
                 this.winner = selectedPlayer.name;
 
                 this.$posthog.capture('game_won', {
@@ -374,20 +374,20 @@ export default {
             // todo FIX BUG -- if all players struck out goes to max call stack size (i.e. infinite loop)
             // matters slightly more because you can now retrospectively change a historical turn to a strike. Still edge case
 
-            if(this.whoseTurn >= this.players.length-1) {
+            if (this.whoseTurn >= this.players.length-1) {
                 this.whoseTurn = 0;
             } else {
                 this.whoseTurn++;
             }
 
             //Skip a struck out player
-            if( Finskore.hasStruckOut(this.players[this.whoseTurn]) ) {
+            if ( Finskore.hasStruckOut(this.players[this.whoseTurn]) ) {
                 this.nextTurn();
             }
         },
 
         resetGame() {
-            if(!confirm('Clear EVERYTHING and start a new game?')) {
+            if (!confirm('Clear EVERYTHING and start a new game?')) {
                 return;
             }
             this.players = [];
@@ -399,7 +399,7 @@ export default {
         },
 
         resetScores() {
-            if(!confirm('Start a new game with same players?')) {
+            if (!confirm('Start a new game with same players?')) {
                 return;
             }
             for(let i=0; i<this.players.length; i++) {
@@ -424,7 +424,7 @@ export default {
         },
 
         setTheme(theme) {
-            if( ['default', 'hot', 'white'].indexOf(theme) === -1 ) {
+            if ( ['default', 'hot', 'white'].indexOf(theme) === -1 ) {
                 return;
             }
 
@@ -432,7 +432,7 @@ export default {
 
             //Remove old theme- classes first
             document.body.classList.forEach( function(c) {
-                if( c.substr(0, 6) === 'theme-' ) {
+                if ( c.substr(0, 6) === 'theme-' ) {
                     document.body.classList.remove(c);
                 }
             });
@@ -460,7 +460,7 @@ export default {
 
         nameForScoring() {
             let name = this.selectedPlayer.name;
-            if(name.substr(-1) !== 's') {
+            if (name.substr(-1) !== 's') {
                 return name + "'s";
             }
             return name + "'";
@@ -497,10 +497,10 @@ export default {
 
     created() {
         //read state from local storage
-        if(localStorage.getItem('finskoreState')) {
+        if (localStorage.getItem('finskoreState')) {
             let state = JSON.parse(localStorage.getItem('finskoreState'));
 
-            if(typeof state.players !== 'undefined') {
+            if (typeof state.players !== 'undefined') {
                 this.players = state.players;
             }
             this.playToScore = (!isNaN(state.playToScore) && state.playToScore > 0) ? state.playToScore : 50;
@@ -516,7 +516,7 @@ export default {
         ['theme-white', 'theme-default'].forEach(function(t) {
             let theme = t.replace('theme-', '');
 
-            if(document.body.classList.contains(t)) {
+            if (document.body.classList.contains(t)) {
                 app.setTheme(theme);
             }
         });
@@ -534,7 +534,7 @@ export default {
     }
 }
 
-if( localStorage.getItem('theme') ) {
+if ( localStorage.getItem('theme') ) {
     let themeClass = 'theme-' + localStorage.getItem('theme');
     document.body.classList.add(themeClass);
     document.getElementById('app').className = document.getElementById('app').className.replace('theme-default'. themeClass);
