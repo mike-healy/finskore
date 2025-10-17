@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <main>
         <slot>
             <header class="container">
@@ -8,7 +7,7 @@
                 <p>A free browser-based scoring app for Finska, Klop &amp; Molkky</p>
             </header>
         </slot>
-        
+
         <p v-show="!gameInProgress" class="center">
           <button @click="openNewGameInterface()">Add Players</button>
           <button v-show="players.length >= 2" @click="runShuffleOrder()" class="cancel" style="margin-left: 1rem;">Shuffle Order</button>
@@ -63,7 +62,7 @@
             <p>Play to <br>
             <input type="number" v-model.number="playToScore" max="1000"></p>
         </div>
-        
+
         <div>
             <button @click="showArrangementGuide = !showArrangementGuide" class="arrangement">
               <img src="img/arrangement.png" class="arrangement" alt="Show arrangement" width="60" height="40">
@@ -82,7 +81,7 @@
         <PhotoCredit :christmas="christmas" :theme="theme" />
     </footer>
 
-    <small class="version">v104</small>
+    <small class="version">v105</small>
 
   </div> <!-- /#app -->
 </template>
@@ -102,6 +101,9 @@ import SetupGame from './components/SetupGame';
 import Arrangement from './components/Arrangement';
 import PhotoCredit from './components/PhotoCredit';
 import Finskore from './Finskore';
+import PosthogPlugin from './plugins/posthog';
+
+Vue.use(PosthogPlugin);
 
 export default {
     components: {
@@ -141,7 +143,6 @@ export default {
     },
 
     methods: {
-
         changeWhoseTurnItIs(playerId) {
           const selectedPlayer = this.players.find((player) => (player.id === playerId));
           const selectedPlayerIndex = this.players.indexOf(selectedPlayer)
@@ -161,6 +162,10 @@ export default {
             this.showNewGameInterface = false;
             this.gameInProgress = true;
             this.turnIndex = 0;
+
+            this.$posthog.capture('game_started', {
+                player_count: this.players.length
+            });
         },
 
         addPlayer({ name }) {
@@ -179,9 +184,9 @@ export default {
             this.shuffleCount = 0;
             clearInterval(this.shufflerInterval);
         },
-        
+
         shuffleOrder() {
-            
+
             if(this.players.length < 2) {
                 return;
             }
@@ -246,7 +251,7 @@ export default {
 
             /**
             * HACK: Just manually update the player score.
-            * (acts to clear computed, to trigger recalculation) 
+            * (acts to clear computed, to trigger recalculation)
             */
             let newTotal = this.selectedPlayer.turns.reduce((sum, turn) => { //not DRY :(
                 let subtotal = sum + turn;
@@ -276,12 +281,14 @@ export default {
             this.gameInProgress = true;
             this.showScoreModal = false;
 
-            //Swing and a miss
-            if(score === 0) {
-                selectedPlayer.strikes++;
-            } else {
-                selectedPlayer.strikes = 0;
-            }
+            this.$posthog.capture('score_entered', {
+                score: score
+            });
+
+            // Hit or miss
+            score === 0
+                ? selectedPlayer.strikes++
+                : selectedPlayer.strikes = 0;
 
             selectedPlayer.turns.push(score);
             selectedPlayer.score += score;
@@ -300,6 +307,11 @@ export default {
             //Declare winner
             if(selectedPlayer.score === this.playToScore) {
                 this.winner = selectedPlayer.name;
+
+                this.$posthog.capture('game_won', {
+                    throws: selectedPlayer.turns.length,
+                });
+
                 return;
             }
 
@@ -353,7 +365,7 @@ export default {
                         prevRankingPosition = index+1;
                     }
                 }
-                
+
                 prevScore = obj.score;
             });
         },
@@ -382,6 +394,8 @@ export default {
             this.scores = [];
             this.winner  = '';
             this.gameInProgress = false;
+
+            this.$posthog.capture('game_reset');
         },
 
         resetScores() {
@@ -399,6 +413,8 @@ export default {
             this.scores = [];
             this.gameInProgress = false;
             this.winner = '';
+
+            this.$posthog.capture('score_reset');
         },
 
         //Stub. todo: integrate with strike count, position tracking
@@ -411,9 +427,9 @@ export default {
             if( ['default', 'hot', 'white'].indexOf(theme) === -1 ) {
                 return;
             }
-         
+
             this.theme = theme;
-            
+
             //Remove old theme- classes first
             document.body.classList.forEach( function(c) {
                 if( c.substr(0, 6) === 'theme-' ) {
@@ -459,13 +475,13 @@ export default {
 
         players: {
             handler(updatedPlayers) {
-                
+
                 //todo: can we check for 3 strikes in a row here to strike out player?
                 // (so that it happens on history change too)
-                
+
                 updatedPlayers.forEach((player, index) => {
 
-                  //Back to 
+                  //Back to
                   // if they bust over 50 this isn't recalcing. Why?
                   this.players[index].score = player.turns.reduce(((sum, turn) => {
                       let subtotal = sum + turn;
@@ -520,7 +536,7 @@ export default {
 
 if( localStorage.getItem('theme') ) {
     let themeClass = 'theme-' + localStorage.getItem('theme');
-    document.body.classList.add(themeClass); 
+    document.body.classList.add(themeClass);
     document.getElementById('app').className = document.getElementById('app').className.replace('theme-default'. themeClass);
 }
 
