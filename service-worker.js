@@ -27,7 +27,7 @@ const cacheFirst = async({ request, fallbackUrl }) => {
     return fromNetwork;
   } catch (error) {
     const fallback = await caches.match(fallbackUrl);
-    
+
     return (fallback)
       ? fallback
       : new Response('Network error', {
